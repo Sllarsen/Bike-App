@@ -14,3 +14,5 @@ C:\Users\sllar\Desktop\Bike-App\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\Bi
 C:\Users\sllar\Desktop\Bike-App\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\XamlC.stamp
 C:\Users\sllar\Desktop\Bike-App\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\BikeVT.dll
 C:\Users\sllar\Desktop\Bike-App\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\BikeVT.pdb
+C:\Users\sllar\Desktop\Bike-App\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\Views\WeatherPage.xaml.g.cs
+C:\Users\sllar\Desktop\Bike-App\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\Views\StatisticPage.xaml.g.cs
