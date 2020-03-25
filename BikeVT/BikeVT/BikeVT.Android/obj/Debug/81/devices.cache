@@ -4,4 +4,12 @@
     <ResultingAbi>x86</ResultingAbi>
     <SdkVersion>27</SdkVersion>
   </Device>
+  <Device id="988a1b443041354a58">
+    <ResultingAbi></ResultingAbi>
+    <SdkVersion>28</SdkVersion>
+  </Device>
+  <Device id="emulator-5556">
+    <ResultingAbi>x86</ResultingAbi>
+    <SdkVersion>24</SdkVersion>
+  </Device>
 </Devices>
