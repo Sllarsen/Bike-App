@@ -17,6 +17,17 @@
             </NavigationPage.Icon>
         </NavigationPage>
 
+        <NavigationPage Title="Geocoding">
+            <x:Arguments>
+                <views:GeocodingPage/>
+            </x:Arguments>
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_about.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
+        </NavigationPage>
+
         <NavigationPage Title="Directions">
             <x:Arguments>
                 <views:Directions/>
