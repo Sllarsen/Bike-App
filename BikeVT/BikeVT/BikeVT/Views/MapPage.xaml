@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="BikeVT.Views.MapPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+
+            <Label Text="Enter a destination:" />
+            <Entry Text="{Binding Destination}" />
+            <Button
+                    Command="{Binding GetPositionCommand}"
+                    IsEnabled="{Binding IsNotBusy}"
+                    Text="Look up destination" />
+            <Label Text="{Binding CoordMsg}" />
+
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
