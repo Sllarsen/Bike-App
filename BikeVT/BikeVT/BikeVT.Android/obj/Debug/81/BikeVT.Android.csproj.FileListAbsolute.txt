@@ -214,6 +214,4 @@ C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT.Android\obj\Debug\81\android\
 C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT.Android\bin\Debug\System.Numerics.Vectors.pdb
 C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT.Android\obj\Debug\81\linksrc\System.Numerics.Vectors.pdb
 C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT.Android\obj\Debug\81\android\assets\System.Numerics.Vectors.pdb
-C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT\bin\Debug\netstandard2.0\BikeVT.dll
-C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT.Android\bin\Debug\BikeVT.dll.mdb
 C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT.Android\obj\Debug\81\linksrc\BikeVT.dll.mdb

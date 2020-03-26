@@ -22,7 +22,7 @@
                 </OnPlatform>
             </NavigationPage.Icon>
             <x:Arguments>
-                <views:Tools />
+                <views:ToolsPage />
             </x:Arguments>
         </NavigationPage>
 

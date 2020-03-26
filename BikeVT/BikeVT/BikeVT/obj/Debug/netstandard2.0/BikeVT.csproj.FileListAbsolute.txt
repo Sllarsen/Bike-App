@@ -29,5 +29,5 @@ C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\Bike
 C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\BikeVT.AssemblyInfo.cs
 C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\BikeVT.dll
 C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\BikeVT.pdb
-C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\Views\Tools.xaml.g.cs
 C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\XamlC.stamp
+C:\Users\sllar\Desktop\BikeVT\BikeVT\BikeVT\BikeVT\obj\Debug\netstandard2.0\Views\ToolsPage.xaml.g.cs
