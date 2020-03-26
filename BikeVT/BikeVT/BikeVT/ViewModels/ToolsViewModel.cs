@@ -15,6 +15,15 @@ namespace BikeVT.ViewModels
             set { gyrodata = value; OnPropertyChanged(); }
         }
 
+        String accelerometerdata = "Accelerometer Stopped";//string.Empty;
+        public string AccelerometerData
+        {
+            get { return accelerometerdata; }
+            set { accelerometerdata = value; OnPropertyChanged(); }
+        }
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         void OnPropertyChanged([CallerMemberName] string name = "")

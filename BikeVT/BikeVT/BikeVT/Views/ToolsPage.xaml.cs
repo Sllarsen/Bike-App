@@ -31,6 +31,8 @@ namespace BikeVT.Views
 
             // Register for reading changes.
             Gyroscope.ReadingChanged += Gyroscope_ReadingChanged;
+            // Register for reading changes, be sure to unsubscribe when finished
+            Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
         }
         void Gyroscope_ReadingChanged(object sender, GyroscopeChangedEventArgs e)
         {
@@ -53,14 +55,48 @@ namespace BikeVT.Views
                 else
                     Gyroscope.Start(speed);
             }
-            catch (FeatureNotSupportedException fnsEx)
+            catch (FeatureNotSupportedException)
             {
                 // Feature not supported on device
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Other error has occurred.
             }
         }
+
+
+        void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        {
+            var data = e.Reading;
+            viewModel.AccelerometerData = $"Reading: X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}";
+            Console.WriteLine($"Reading: X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}");
+            // Process Acceleration X, Y, and Z
+        }
+
+        public void ToggleAccelerometer(object sender, EventArgs args)
+        {
+            try
+            {
+                if (Accelerometer.IsMonitoring)
+                {
+                    viewModel.AccelerometerData = "Accelerometer Stopped";
+                    Accelerometer.Stop();
+                }
+                    
+                else
+                    Accelerometer.Start(speed);
+            }
+            catch (FeatureNotSupportedException)
+            {
+                // Feature not supported on device
+            }
+            catch (Exception)
+            {
+                // Other error has occurred.
+            }
+        }
+
+
     }
 }
