@@ -36,7 +36,7 @@ namespace BikeVT.Views
         {
             var data = e.Reading;
             // Process Angular Velocity X, Y, and Z reported in rad/s
-            viewModel.Name = $"Reading: X: {data.AngularVelocity.X}, Y: {data.AngularVelocity.Y}, Z: {data.AngularVelocity.Z}";
+            viewModel.Gyrodata = $"Reading: X: {data.AngularVelocity.X}, Y: {data.AngularVelocity.Y}, Z: {data.AngularVelocity.Z}";
             Console.WriteLine($"Reading: X: {data.AngularVelocity.X}, Y: {data.AngularVelocity.Y}, Z: {data.AngularVelocity.Z}");
         }
 
@@ -47,7 +47,7 @@ namespace BikeVT.Views
                 if (Gyroscope.IsMonitoring)
                 {
                     Gyroscope.Stop();
-                    viewModel.Name = "GyroScope Stopped";
+                    viewModel.Gyrodata = "GyroScope Stopped";
                 }
                    
                 else

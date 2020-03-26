@@ -8,11 +8,11 @@ namespace BikeVT.ViewModels
 {
     public class ToolsViewModel : INotifyPropertyChanged
     {
-        String name = "GyroScope Stopped";//string.Empty;
-        public string Name
+        String gyrodata = "GyroScope Stopped";//string.Empty;
+        public string Gyrodata
         {
-            get { return name; }
-            set { name = value; OnPropertyChanged(); }
+            get { return gyrodata; }
+            set { gyrodata = value; OnPropertyChanged(); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
