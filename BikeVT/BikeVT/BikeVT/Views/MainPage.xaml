@@ -39,6 +39,17 @@
             </NavigationPage.Icon>
         </NavigationPage>
 
+        <NavigationPage Title="Map">
+            <x:Arguments>
+                <views:MapPage/>
+            </x:Arguments>
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_about.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
+        </NavigationPage>
+
         <NavigationPage Title="Statistics">
             <x:Arguments>
                 <views:StatisticPage/>

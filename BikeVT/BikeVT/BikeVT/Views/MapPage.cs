@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//For Capitalizing strings
+using System.Globalization;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -34,6 +37,7 @@ namespace BikeVT.Views
         string coordMsg;
         double latitude;
         double longitude;
+        bool mapButtonIsEnabled = false;
 
         public ICommand GetPositionCommand { get; }
 
@@ -49,6 +53,12 @@ namespace BikeVT.Views
             get => coordMsg;
             set => SetProperty(ref coordMsg, value);
 
+        }
+
+        public Boolean MapButtonIsEnabled
+        {
+            get => mapButtonIsEnabled;
+            set => SetProperty(ref mapButtonIsEnabled, value);
         }
 
         /**
@@ -68,24 +78,54 @@ namespace BikeVT.Views
                 if (location == null)
                 {
                     CoordMsg = "Unable to detect locations";
+                    MapButtonIsEnabled = false;
                     //TODO: Check if they just typed in coordinates
                 }
                 else
                 {
+
                     latitude = location.Latitude;
                     longitude = location.Longitude;
                     CoordMsg = "(" + latitude + ", " + longitude + ")";
+                    MapButtonIsEnabled = true;
                 }
             }
             catch (Exception ex)
             {
                 CoordMsg = $"Unable to detect locations: {ex.Message}";
+                MapButtonIsEnabled = false;
             }
             finally
             {
                 IsBusy = false;
             }
         }
+
+        //https://docs.microsoft.com/en-us/xamarin/essentials/maps?context=xamarin%2Fxamarin-forms&tabs=android
+        private async void ButtonOpenCoords_Clicked(object sender, EventArgs e)
+        {
+            if (! MapButtonIsEnabled)   //Coords have not been set
+                return;
+            if (Destination == null)
+                return;
+
+            // https://docs.microsoft.com/en-us/dotnet/api/system.globalization.textinfo.totitlecase?view=netframework-4.8
+            // Creates a TextInfo based on the "en-US" culture.
+            TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
+            string formattedTitle = myTI.ToTitleCase(Destination);
+
+            // Open default "Maps" application
+            await Map.OpenAsync(latitude, longitude, new MapLaunchOptions
+            {
+
+                Name = formattedTitle,
+                NavigationMode = NavigationMode.Bicycling
+                //Automatically sets directions in "Biking" mode
+                //Use `NavigationMode.None` to just show them the location
+            });
+
+        }
+
 
 
         protected virtual bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName]string propertyName = "", Action onChanged = null, Func<T, T, bool> validateValue = null)

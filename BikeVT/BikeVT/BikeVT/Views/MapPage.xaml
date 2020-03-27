@@ -17,6 +17,10 @@
                     Text="Look up destination" />
             <Label Text="{Binding CoordMsg}" />
 
+            <Button Text="Open directions in Maps app" x:Name="ButtonOpenCoords"
+                Clicked="ButtonOpenCoords_Clicked"
+                IsEnabled="{Binding MapButtonIsEnabled}"
+                />
 
 
         </StackLayout>
