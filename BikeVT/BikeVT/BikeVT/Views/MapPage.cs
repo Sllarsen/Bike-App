@@ -33,7 +33,8 @@ namespace BikeVT.Views
             BindingContext = this;  // Allows you to use "{Binding VAR}" in .xaml
         }
 
-        string destination;
+        string searchDest;
+        string identifiedDest;
         string coordMsg;
         double latitude;
         double longitude;
@@ -42,11 +43,15 @@ namespace BikeVT.Views
         public ICommand GetPositionCommand { get; }
 
 
-        public String Destination
+        public String SearchDest
         {
-            get => destination;
-            set => SetProperty(ref destination, value);
-
+            get => searchDest;
+            set => SetProperty(ref searchDest, value);
+        }
+        public String IdentifiedDest
+        {
+            get => identifiedDest;
+            set => SetProperty(ref identifiedDest, value);
         }
         public String CoordMsg
         {
@@ -73,11 +78,12 @@ namespace BikeVT.Views
             IsBusy = true;
             try
             {
-                var locations = await Geocoding.GetLocationsAsync(Destination);
+                var locations = await Geocoding.GetLocationsAsync(SearchDest);
                 Location location = locations.FirstOrDefault();
                 if (location == null)
                 {
-                    CoordMsg = "Unable to detect locations";
+                    CoordMsg = "";
+                    IdentifiedDest = "Unable to locate destination";
                     MapButtonIsEnabled = false;
                     //TODO: Check if they just typed in coordinates
                 }
@@ -86,13 +92,46 @@ namespace BikeVT.Views
 
                     latitude = location.Latitude;
                     longitude = location.Longitude;
-                    CoordMsg = "(" + latitude + ", " + longitude + ")";
+                    CoordMsg = "[" + latitude + ", " + longitude + "]";
+
+                    // Find Address info (text)
+                    var placemarks = await Geocoding.GetPlacemarksAsync(latitude, longitude);
+                    Placemark placemark = placemarks.FirstOrDefault();
+                    if (placemark == null)
+                    {
+                        IdentifiedDest = "";
+                    }
+                    else
+                    {
+                        // If .FeatureName is the name of the building, we want it on a new line
+                        // if it is just the street number, we want it on the same line
+
+                        IdentifiedDest =
+                                placemark.FeatureName +
+                                //placemark.SubThoroughfare seems to be the same as .FeatureName
+
+                                (double.TryParse(placemark.FeatureName, out double unusedVar) ? " " : "\n") +
+                                // If .FeatureName is the name of the building, we want it on a new line
+                                // if it is just the street number, we want it on the same line                                placemark.Thoroughfare + "\n" +
+
+                                placemark.Thoroughfare + "\n" +
+                                placemark.Locality + ", " +
+                                placemark.AdminArea + " " +
+                                placemark.PostalCode + "\n" +
+                                "(" +
+                                (string.IsNullOrEmpty(placemark.SubAdminArea) ? "" : (placemark.SubAdminArea + ", ")) +
+                                placemark.CountryCode +
+                                ")";
+                    }
+
+                    // Allow users to open google maps
                     MapButtonIsEnabled = true;
                 }
             }
             catch (Exception ex)
             {
-                CoordMsg = $"Unable to detect locations: {ex.Message}";
+                CoordMsg = "";
+                IdentifiedDest = $"Unable to identify destination: {ex.Message}";
                 MapButtonIsEnabled = false;
             }
             finally
@@ -104,15 +143,15 @@ namespace BikeVT.Views
         //https://docs.microsoft.com/en-us/xamarin/essentials/maps?context=xamarin%2Fxamarin-forms&tabs=android
         private async void ButtonOpenCoords_Clicked(object sender, EventArgs e)
         {
-            if (! MapButtonIsEnabled)   //Coords have not been set
+            if (!MapButtonIsEnabled)   //Coords have not been set
                 return;
-            if (Destination == null)
+            if (SearchDest == null)
                 return;
 
             // https://docs.microsoft.com/en-us/dotnet/api/system.globalization.textinfo.totitlecase?view=netframework-4.8
             // Creates a TextInfo based on the "en-US" culture.
             TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
-            string formattedTitle = myTI.ToTitleCase(Destination);
+            string formattedTitle = myTI.ToTitleCase(SearchDest);
 
             // Open default "Maps" application
             await Map.OpenAsync(latitude, longitude, new MapLaunchOptions

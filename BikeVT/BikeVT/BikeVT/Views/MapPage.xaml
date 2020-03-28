@@ -6,16 +6,21 @@
              mc:Ignorable="d"
              x:Class="BikeVT.Views.MapPage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Padding="5">
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 
             <Label Text="Enter a destination:" />
-            <Entry Text="{Binding Destination}" />
+            <Entry Text="{Binding SearchDest}" />
             <Button
                     Command="{Binding GetPositionCommand}"
                     IsEnabled="{Binding IsNotBusy}"
                     Text="Look up destination" />
+
+            <Label Text="{Binding IdentifiedDest}" />
             <Label Text="{Binding CoordMsg}" />
+
+           
+
 
             <Button Text="Open directions in Maps app" x:Name="ButtonOpenCoords"
                 Clicked="ButtonOpenCoords_Clicked"
