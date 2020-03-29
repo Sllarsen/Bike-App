@@ -80,6 +80,20 @@ namespace BikeVT.Views
             {
                 var locations = await Geocoding.GetLocationsAsync(SearchDest);
                 Location location = locations.FirstOrDefault();
+
+
+                //Sort by closeness to current position
+//                Console.WriteLine("Hello world!");
+                
+  //              foreach (var item in locations)
+    //            {
+      //               Console.WriteLine(item.ToString());
+        //        }
+          //      Console.WriteLine(locations.Count());
+
+
+
+
                 if (location == null)
                 {
                     CoordMsg = "";
