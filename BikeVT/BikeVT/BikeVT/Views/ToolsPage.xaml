@@ -6,15 +6,18 @@
         <StackLayout>
 
 
-
+            <Label Text="{Binding AccelerometerData}"/>
+            <Button Text="accelerometer On/Off!"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Clicked="ToggleAccelerometer" />
 
             <Label Text="{Binding Gyrodata}"/>
-
-
             <Button Text="GyroScope On/Off!"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="Center"
                 Clicked="ToggleGyroscope" />
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
