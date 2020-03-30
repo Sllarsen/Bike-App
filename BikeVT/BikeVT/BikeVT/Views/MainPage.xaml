@@ -27,6 +27,29 @@
             </NavigationPage.Icon>
         </NavigationPage>
 
+        <NavigationPage Title="Tools">
+            <x:Arguments>
+                <views:ToolsPage />
+            </x:Arguments>
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_about.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
+
+        </NavigationPage>
+
+        <NavigationPage Title="About">
+            <x:Arguments>
+                <views:AboutPage/>
+            </x:Arguments>
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_about.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
+        </NavigationPage>
+
         <NavigationPage Title="Statistics">
             <x:Arguments>
                 <views:StatisticPage/>
