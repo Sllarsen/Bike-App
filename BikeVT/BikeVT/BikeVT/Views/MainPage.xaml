@@ -4,7 +4,6 @@
             xmlns:views="clr-namespace:BikeVT.Views"
             x:Class="BikeVT.Views.MainPage">
     <TabbedPage.Children>
-
         <NavigationPage Title="Weather">
             <x:Arguments>
                 <views:WeatherPage/>
@@ -49,7 +48,6 @@
                 </OnPlatform>
             </NavigationPage.Icon>
         </NavigationPage>
-
 
 
         

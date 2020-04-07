@@ -4,7 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="BikeVT.Views.MapPage">
+             x:Class="BikeVT.Views.MapPage"
+             Title="Maps">
     <ContentPage.Content>
         <StackLayout Padding="15">
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />

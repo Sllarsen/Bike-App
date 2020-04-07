@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              xmlns:local="clr-namespace:BikeVT.Views"
-             x:Class="BikeVT.Views.WeatherPage">
+             x:Class="BikeVT.Views.WeatherPage"
+             Title="Weather">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="labelStyle" 
