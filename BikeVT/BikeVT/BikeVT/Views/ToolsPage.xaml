@@ -17,7 +17,10 @@
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="Center"
                 Clicked="ToggleGyroscope" />
-            
+
+            <Label Text='GPS data:'/>
+            <Label Text="{Binding gpsData}"/>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
