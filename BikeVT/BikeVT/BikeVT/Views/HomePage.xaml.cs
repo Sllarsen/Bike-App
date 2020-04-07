@@ -24,7 +24,7 @@ namespace BikeVT.Views
             familyLabel.IsVisible = false;
             emailLabel.IsVisible = false;
 
-            tripButton.IsVisible = false;
+            tripButton.IsVisible = true;
 
             CrossGoogleClient.Current.OnLogin += (s, a) =>
             {
