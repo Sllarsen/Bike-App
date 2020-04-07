@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              x:Class="BikeVT.Views.MapPage">
     <ContentPage.Content>
-        <StackLayout Padding="5">
+        <StackLayout Padding="15">
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 
             <Label Text="Enter a destination:" />

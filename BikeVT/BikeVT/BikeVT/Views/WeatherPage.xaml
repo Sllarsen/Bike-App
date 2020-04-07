@@ -60,7 +60,7 @@
         </Grid>
 
         <ScrollView>
-            <StackLayout Padding="10">
+            <StackLayout Padding="15">
                 <Label Text="Location" 
                        Style="{StaticResource labelStyle}" />
                 <Label Text="{Binding Title}" 

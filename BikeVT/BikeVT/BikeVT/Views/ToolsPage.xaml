@@ -3,19 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BikeVT.Views.ToolsPage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Padding="15">
 
 
             <Label Text="{Binding AccelerometerData}"/>
-            <Button Text="accelerometer On/Off!"
+            <Button Text="Accelerometer On/Off!"
                 VerticalOptions="CenterAndExpand"
-                HorizontalOptions="Center"
                 Clicked="ToggleAccelerometer" />
 
             <Label Text="{Binding Gyrodata}"/>
             <Button Text="GyroScope On/Off!"
                 VerticalOptions="CenterAndExpand"
-                HorizontalOptions="Center"
                 Clicked="ToggleGyroscope" />
             
         </StackLayout>
