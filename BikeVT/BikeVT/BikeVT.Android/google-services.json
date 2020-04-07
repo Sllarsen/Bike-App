@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "351509751090",
+    "firebase_url": "https://bikemobilea.firebaseio.com",
+    "project_id": "bikemobilea",
+    "storage_bucket": "bikemobilea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351509751090:android:84f6a66b4bdc98f5f1e32b",
+        "android_client_info": {
+          "package_name": "com.vtti.BikeVT"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351509751090-557ghl2vheesovq95roa7hk7ehf7mrhi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vtti.BikeVT",
+            "certificate_hash": "52865462d71fe2989bb407ff9806b1a5aaed45d7"
+          }
+        },
+        {
+          "client_id": "351509751090-raac0eek3d2q8jt8noioeb35c3mgb6om.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhAxMUxGgbSQHH0l_qQBqiDmIHwxjAX4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351509751090-raac0eek3d2q8jt8noioeb35c3mgb6om.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
