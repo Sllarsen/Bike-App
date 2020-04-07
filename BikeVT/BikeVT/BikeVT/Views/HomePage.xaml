@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="BikeVT.Views.HomePage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="loginLabel" 
+                Text="You have now been logged in!"
+                FontSize="Large"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+
+            <Label x:Name="idLabel"
+               Text="ID: "
+               FontSize="Large"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="Center" />
+
+            <Label x:Name="nameLabel"
+               Text="Name: "
+               FontSize="Large"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="Center" />
+
+            <Label x:Name="givenLabel"
+               Text="Given Name: "
+               FontSize="Large"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="Center" />
+
+            <Label x:Name="familyLabel"
+               Text="Family Name: "
+               FontSize="Large"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="Center" />
+
+            <Label x:Name="emailLabel"
+               Text="Email: "
+               FontSize="Large"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="Center" />
+
+            <Button x:Name="tripButton"
+                    Text="Go To Trips"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Clicked="OnTripClicked"/>
+
+            <Button x:Name="logoutButton" 
+               Text="Go Back"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="Center"
+               Clicked="OnLogOutClicked" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
