@@ -4,37 +4,67 @@
             xmlns:views="clr-namespace:BikeVT.Views"
             x:Class="BikeVT.Views.MainPage">
     <TabbedPage.Children>
-        <NavigationPage Title="Browse">
+
+        <NavigationPage Title="Weather">
+            <x:Arguments>
+                <views:WeatherPage/>
+            </x:Arguments>
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_feed.png"/>
+                    <On Platform="iOS" Value="tab_about.png"/>
                 </OnPlatform>
             </NavigationPage.Icon>
+        </NavigationPage>
+
+        <NavigationPage Title="Map">
             <x:Arguments>
-                <views:ItemsPage />
+                <views:MapPage/>
             </x:Arguments>
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_about.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
         </NavigationPage>
 
         <NavigationPage Title="Tools">
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_about.png"/>
-                </OnPlatform>
-            </NavigationPage.Icon>
             <x:Arguments>
                 <views:ToolsPage />
             </x:Arguments>
-        </NavigationPage>
-
-        <NavigationPage Title="About">
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_about.png"/>
                 </OnPlatform>
             </NavigationPage.Icon>
-            <x:Arguments>
-                <views:AboutPage />
-            </x:Arguments>
+
         </NavigationPage>
+
+        <NavigationPage Title="About">
+            <x:Arguments>
+                <views:AboutPage/>
+            </x:Arguments>
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_about.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
+        </NavigationPage>
+
+        <NavigationPage Title="Statistics">
+            <x:Arguments>
+                <views:StatisticPage/>
+            </x:Arguments>
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_about.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
+        </NavigationPage>
+
+
+
+        
+       
+        
     </TabbedPage.Children>
 </TabbedPage>
