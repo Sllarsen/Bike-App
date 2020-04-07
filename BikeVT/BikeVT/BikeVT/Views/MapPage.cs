@@ -14,7 +14,6 @@ using Xamarin.Forms.Xaml;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-
 using Xamarin.Essentials;
 
 /**
@@ -42,7 +41,6 @@ namespace BikeVT.Views
 
         public ICommand GetPositionCommand { get; }
 
-
         public String SearchDest
         {
             get => searchDest;
@@ -57,7 +55,6 @@ namespace BikeVT.Views
         {
             get => coordMsg;
             set => SetProperty(ref coordMsg, value);
-
         }
 
         public Boolean MapButtonIsEnabled
@@ -79,31 +76,25 @@ namespace BikeVT.Views
             try
             {
                 var locations = await Geocoding.GetLocationsAsync(SearchDest);
-                Location location = locations.FirstOrDefault();
-
-
-                //Sort by closeness to current position
-//                Console.WriteLine("Hello world!");
+                // TODO: Supposedly `locations` contains multiple locations based on the search query.
+                //       Ideally we'd like to sort by places by closest to the user's current location,
+                //       but `locations` seems to only have one location.
                 
-  //              foreach (var item in locations)
-    //            {
-      //               Console.WriteLine(item.ToString());
-        //        }
-          //      Console.WriteLine(locations.Count());
+                // Console.WriteLine("Number of items in `locations`:"+locations.Count());               
+                // foreach (var item in locations)
+                // {Console.WriteLine("locations:" + item.ToString());}
 
-
-
+                Location location = locations.FirstOrDefault();
 
                 if (location == null)
                 {
                     CoordMsg = "";
                     IdentifiedDest = "Unable to locate destination";
                     MapButtonIsEnabled = false;
-                    //TODO: Check if they just typed in coordinates
+                    //TODO: Check if they just typed in coordinates and use that
                 }
                 else
                 {
-
                     latitude = location.Latitude;
                     longitude = location.Longitude;
                     CoordMsg = "[" + latitude + ", " + longitude + "]";
@@ -126,7 +117,7 @@ namespace BikeVT.Views
 
                                 (double.TryParse(placemark.FeatureName, out double unusedVar) ? " " : "\n") +
                                 // If .FeatureName is the name of the building, we want it on a new line
-                                // if it is just the street number, we want it on the same line                                placemark.Thoroughfare + "\n" +
+                                // if it is just the street number, we want it on the same line
 
                                 placemark.Thoroughfare + "\n" +
                                 placemark.Locality + ", " +
@@ -170,16 +161,12 @@ namespace BikeVT.Views
             // Open default "Maps" application
             await Map.OpenAsync(latitude, longitude, new MapLaunchOptions
             {
-
                 Name = formattedTitle,
                 NavigationMode = NavigationMode.Bicycling
                 //Automatically sets directions in "Biking" mode
                 //Use `NavigationMode.None` to just show them the location
             });
-
         }
-
-
 
         protected virtual bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName]string propertyName = "", Action onChanged = null, Func<T, T, bool> validateValue = null)
         {

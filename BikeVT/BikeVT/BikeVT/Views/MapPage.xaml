@@ -14,19 +14,16 @@
             <Button
                     Command="{Binding GetPositionCommand}"
                     IsEnabled="{Binding IsNotBusy}"
-                    Text="Look up destination" />
+                    Text="Look up destination" 
+             />
 
             <Label Text="{Binding IdentifiedDest}" />
             <Label Text="{Binding CoordMsg}" />
 
-           
-
-
             <Button Text="Open directions in Maps app" x:Name="ButtonOpenCoords"
                 Clicked="ButtonOpenCoords_Clicked"
                 IsEnabled="{Binding MapButtonIsEnabled}"
-                />
-
+            />
 
         </StackLayout>
     </ContentPage.Content>
