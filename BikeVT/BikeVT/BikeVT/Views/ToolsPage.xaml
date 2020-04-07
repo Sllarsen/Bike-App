@@ -19,7 +19,7 @@
                 Clicked="ToggleGyroscope" />
 
             <Label Text='GPS data:'/>
-            <Label Text="{Binding gpsData}"/>
+            <Label Text="{Binding GPSData}"/>
 
         </StackLayout>
     </ContentPage.Content>
