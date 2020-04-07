@@ -6,7 +6,8 @@
              mc:Ignorable="d"
              xmlns:local="clr-namespace:BikeVT.Views"
              x:Class="BikeVT.Views.WeatherPage"
-             Title="Weather">
+             NavigationPage.HasNavigationBar="False"
+             >
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="labelStyle" 
