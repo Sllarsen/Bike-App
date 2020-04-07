@@ -55,6 +55,20 @@ namespace BikeVT.ViewModels
             }
         }
 
+        public void updateGPSData()
+        {
+            var c_locator = CrossGeolocator.Current;
+            if (c_locator.IsGeolocationAvailable && c_locator.IsGeolocationEnabled)
+            {
+                var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
+                gpsData = "lat = " + test_loc.Latitude + " long: " + test_loc.Longitude;
+            }
+            else
+            {
+                gpsData = "gps services not enabled";
+            }
+        }
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;
