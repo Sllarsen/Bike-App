@@ -2,10 +2,18 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BikeVT.Views.StatisticPage"
-            Title="Statistics">
+            NavigationPage.HasNavigationBar="False"
+            
+            >
   <!--Pages can be added as references or inline-->
     <ContentPage Title="Tab 1">
-        <Label>HELLO WORLD</Label>
+        <StackLayout Padding="15">
+            <Label Text="Distance:"/>
+            <Label Text="Average speed:"/>
+            <Label Text="Max speed:"/>
+            <Label Text="Duration:"/>
+            <Label Text="Calories:"/>
+        </StackLayout>
     </ContentPage>
     <ContentPage Title="Tab 2">
         <Label> HELLO GOODBYE</Label>
