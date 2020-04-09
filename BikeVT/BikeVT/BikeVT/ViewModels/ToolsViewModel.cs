@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Plugin.Geolocator;
+using System.Threading.Tasks;
 
 namespace BikeVT.ViewModels
 {
@@ -20,6 +22,53 @@ namespace BikeVT.ViewModels
         {
             get { return accelerometerdata; }
             set { accelerometerdata = value; OnPropertyChanged(); }
+        }
+
+        String gpsData = "GPS Stopped";
+
+        public string GPSData
+        {
+            get {
+                var c_locator = CrossGeolocator.Current;
+                if (c_locator.IsGeolocationAvailable && c_locator.IsGeolocationEnabled)
+                {
+                    var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
+                    gpsData = "lat = " + test_loc.Latitude + " long: " + test_loc.Longitude;
+                }
+                else
+                {
+                    gpsData = "gps services not enabled";
+                }
+                return gpsData; }
+            set
+            {
+                var c_locator = CrossGeolocator.Current;
+                if (c_locator.IsGeolocationAvailable && c_locator.IsGeolocationEnabled)
+                {
+                    var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
+                    gpsData = "lat = " + test_loc.Latitude + " long: " + test_loc.Longitude;
+                }
+                else
+                {
+                    gpsData = "gps services not enabled";
+                }
+            }
+        }
+
+        public void updateGPSData()
+        {
+            var c_locator = CrossGeolocator.Current;
+            if (c_locator.IsGeolocationAvailable && c_locator.IsGeolocationEnabled)
+            {
+                var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
+                gpsData = "lat = " + test_loc.Latitude + " long: " + test_loc.Longitude;
+            }
+            else
+            {
+                gpsData = "gps services not enabled";
+            }
+            long curr = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            Console.WriteLine(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff") + " gps updated: " + gpsData );
         }
 
 

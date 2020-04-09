@@ -33,6 +33,16 @@ namespace BikeVT.Views
             Gyroscope.ReadingChanged += Gyroscope_ReadingChanged;
             // Register for reading changes, be sure to unsubscribe when finished
             Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
+
+            Task.Run(() => updateGPS());
+        }
+
+        void updateGPS()
+        {
+            for (; ;)
+            {
+                viewModel.updateGPSData();
+            }
         }
         void Gyroscope_ReadingChanged(object sender, GyroscopeChangedEventArgs e)
         {
