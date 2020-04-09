@@ -67,6 +67,8 @@ namespace BikeVT.ViewModels
             {
                 gpsData = "gps services not enabled";
             }
+            long curr = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            Console.WriteLine(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff") + " gps updated: " + gpsData );
         }
 
 
