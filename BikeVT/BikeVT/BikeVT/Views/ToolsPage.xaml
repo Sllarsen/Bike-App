@@ -16,7 +16,10 @@
             <Button Text="GyroScope On/Off!"
                 VerticalOptions="CenterAndExpand"
                 Clicked="ToggleGyroscope" />
-            
+
+            <Label Text='GPS data:'/>
+            <Label Text="{Binding GPSData}"/>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
