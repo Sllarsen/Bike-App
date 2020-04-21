@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "351509751090-b4uu770ouuoi18ej3fje4v8l4i909gq9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vtti.BikeVT",
+            "certificate_hash": "3d5040b3f03440c8c841f18494990e7e335a643d"
+          }
+        },
+        {
+          "client_id": "351509751090-eu79b3u738kf27r3n20cunp3h54h7ge2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vtti.BikeVT",
+            "certificate_hash": "b3ecbf246e3140a77a7f8871ebd41dc44962698f"
+          }
+        },
+        {
           "client_id": "351509751090-7kg2i0sbdhmgqceg9g6avcuukh68j7ga.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
