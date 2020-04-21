@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BikeVT.Models
 {
-    class GoogleUser
+    public class User
     {
         public string Id { get; set; }
         public string Name { get; set; }

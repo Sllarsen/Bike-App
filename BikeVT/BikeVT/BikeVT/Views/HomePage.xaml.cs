@@ -24,6 +24,9 @@ namespace BikeVT.Views
             familyLabel.IsVisible = false;
             emailLabel.IsVisible = false;
 
+            personalInfoButton.IsVisible = false;
+            tripButton.IsVisible = false;
+
             CrossGoogleClient.Current.OnLogin += (s, a) =>
             {
                 switch (a.Status)
@@ -52,13 +55,14 @@ namespace BikeVT.Views
             emailLabel.Text = "Email: " + App.user.Email;
 
             loginLabel.IsVisible = true;
-
             idLabel.IsVisible = true;
             nameLabel.IsVisible = true;
             givenLabel.IsVisible = true;
             familyLabel.IsVisible = true;
             emailLabel.IsVisible = true;
 
+            personalInfoButton.IsVisible = true;
+            tripButton.IsVisible = true;
             logoutButton.Text = "Logout";
         }
 
@@ -76,6 +80,13 @@ namespace BikeVT.Views
         {
 
             Navigation.PushAsync(new MainPage());
+
+        }
+
+        public void OnPersonalInfoClicked(object sender, EventArgs args) 
+        {
+
+            Navigation.PushAsync(new PersonalInfoPage());
 
         }
 

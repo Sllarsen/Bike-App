@@ -44,16 +44,22 @@
                VerticalOptions="CenterAndExpand"
                HorizontalOptions="Center" />
 
+            <Button x:Name="personalInfoButton"
+               Text="Go To Personal Info"
+               VerticalOptions="CenterAndExpand"
+               Margin="100, 0, 100, 0"
+               Clicked="OnPersonalInfoClicked"/>
+            
             <Button x:Name="tripButton"
-                    Text="Go To Trips"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center"
-                    Clicked="OnTripClicked"/>
+               Text="Go To Trips"
+               VerticalOptions="CenterAndExpand"
+               Margin="100, 0, 100, 0"
+               Clicked="OnTripClicked"/>
 
             <Button x:Name="logoutButton" 
                Text="Go Back"
                VerticalOptions="CenterAndExpand"
-               HorizontalOptions="Center"
+               Margin="100, 0, 100, 0"
                Clicked="OnLogOutClicked" />
         </StackLayout>
     </ContentPage.Content>

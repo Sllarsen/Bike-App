@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using BikeVT.Views;
 using Plugin.GoogleClient.Shared;
+using BikeVT.Models;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace BikeVT
@@ -10,7 +11,7 @@ namespace BikeVT
     public partial class App : Application
     {
 
-        public static GoogleUser user;
+        public static User user;
         public static bool loggedIn;
 
         public App()
@@ -19,7 +20,7 @@ namespace BikeVT
 
             // MainPage = new MainPage();
 
-            user = new GoogleUser();
+            user = new User();
 
             loggedIn = false;
 
