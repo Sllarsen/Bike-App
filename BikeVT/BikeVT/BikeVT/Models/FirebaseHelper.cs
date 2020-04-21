@@ -47,6 +47,21 @@ namespace BikeVT.Models
                 });
         }
 
+        public async Task AddTripToUser(User user, string tripName) 
+        {
+            var curUser = (await firebase
+                .Child("Users")
+                .OnceAsync<User>()).Where(a => a.Object.Id == user.Id).FirstOrDefault();
+
+            await firebase
+                .Child("Users")
+                .Child(curUser.Key)
+                .PostAsync(new Trip()
+                { 
+                    TripName = tripName
+                });
+        }
+
         public async Task<User> GetUser(string id)
         {
             var allUsers = await GetAllUsers();

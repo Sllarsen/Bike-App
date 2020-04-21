@@ -20,12 +20,6 @@
                VerticalOptions="CenterAndExpand"
                HorizontalOptions="Center" />
 
-            <Label x:Name="nameLabel"
-               Text="Name: "
-               FontSize="Large"
-               VerticalOptions="CenterAndExpand"
-               HorizontalOptions="Center" />
-
             <Label x:Name="givenLabel"
                Text="Given Name: "
                FontSize="Large"

@@ -21,7 +21,6 @@ namespace BikeVT.Views
 
             loginLabel.IsVisible = false;
             idLabel.IsVisible = false;
-            nameLabel.IsVisible = false;
             givenLabel.IsVisible = false;
             familyLabel.IsVisible = false;
             emailLabel.IsVisible = false;
@@ -45,7 +44,8 @@ namespace BikeVT.Views
                             loginLabel.Text = "User was not found in database!";
                             await firebaseHelper.AddUser(App.user);
                         }
-                        //await firebaseHelper.AddPerson(App.user);
+
+                        await firebaseHelper.AddTripToUser(App.user, "Trip Name");
 
                         App.loggedIn = true;
                         break;
@@ -62,7 +62,6 @@ namespace BikeVT.Views
 
             loginLabel.IsVisible = true;
             idLabel.IsVisible = true;
-            nameLabel.IsVisible = true;
             givenLabel.IsVisible = true;
             familyLabel.IsVisible = true;
             emailLabel.IsVisible = true;
