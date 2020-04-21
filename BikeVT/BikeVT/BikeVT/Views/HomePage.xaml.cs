@@ -1,4 +1,5 @@
-﻿using Plugin.GoogleClient;
+﻿using BikeVT.Models;
+using Plugin.GoogleClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace BikeVT.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : ContentPage
     {
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
         public HomePage()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace BikeVT.Views
             personalInfoButton.IsVisible = false;
             tripButton.IsVisible = false;
 
-            CrossGoogleClient.Current.OnLogin += (s, a) =>
+            CrossGoogleClient.Current.OnLogin += async (s, a) =>
             {
                 switch (a.Status)
                 {
@@ -39,6 +41,12 @@ namespace BikeVT.Views
                         App.user.Email = a.Data.Email;
 
                         updatePageOnLogin();
+                        var currentUser = await firebaseHelper.GetUser(App.user.Id);
+                        if (currentUser == null) {
+                            loginLabel.Text = "User was not found in database!";
+                            await firebaseHelper.AddUser(App.user);
+                        }
+                        //await firebaseHelper.AddPerson(App.user);
 
                         App.loggedIn = true;
                         break;
