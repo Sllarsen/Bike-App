@@ -3,6 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:views="clr-namespace:BikeVT.Views"
             x:Class="BikeVT.Views.MainPage"
+            BarBackgroundColor = "Color.Green"
             Title="VTTI Bike Mobile App">
     <TabbedPage.Children>
         <NavigationPage Title="Weather">
