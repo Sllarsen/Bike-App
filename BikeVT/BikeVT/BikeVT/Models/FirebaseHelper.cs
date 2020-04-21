@@ -20,10 +20,13 @@ namespace BikeVT.Models
                 .OnceAsync<User>()).Select(item => new User
                 {
                     Id = item.Object.Id,
-                    Name = item.Object.Name,
                     GivenName = item.Object.GivenName,
                     FamilyName = item.Object.FamilyName,
-                    Email = item.Object.Email
+                    Email = item.Object.Email,
+                    Age = item.Object.Age,
+                    Gender = item.Object.Gender,
+                    Weight = item.Object.Weight,
+                    BikerStatus = item.Object.BikerStatus
                 }).ToList();
         }
 
@@ -31,9 +34,17 @@ namespace BikeVT.Models
         {
             await firebase
                 .Child("Users")
-                .PostAsync(new User() { Id = curUser.Id, Email=curUser.Email, 
-                                        FamilyName = curUser.FamilyName, GivenName = curUser.GivenName, 
-                                        Name = curUser.Name });
+                .PostAsync(new User() 
+                { 
+                    Id = curUser.Id, 
+                    Email=curUser.Email, 
+                    FamilyName = curUser.FamilyName, 
+                    GivenName = curUser.GivenName,
+                    Age = 0,
+                    Gender = "N/A",
+                    Weight = 0,
+                    BikerStatus = "N/A"
+                });
         }
 
         public async Task<User> GetUser(string id)

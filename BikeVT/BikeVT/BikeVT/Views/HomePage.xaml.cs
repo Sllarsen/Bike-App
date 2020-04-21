@@ -35,7 +35,6 @@ namespace BikeVT.Views
                 {
                     case GoogleActionStatus.Completed:
                         App.user.Id = a.Data.Id;
-                        App.user.Name = a.Data.Name;
                         App.user.GivenName = a.Data.GivenName;
                         App.user.FamilyName = a.Data.FamilyName;
                         App.user.Email = a.Data.Email;
@@ -57,7 +56,6 @@ namespace BikeVT.Views
         private void updatePageOnLogin()
         {
             idLabel.Text = "ID: " + App.user.Id;
-            nameLabel.Text = "Name: " + App.user.Name;
             givenLabel.Text = "Given Name: " + App.user.GivenName;
             familyLabel.Text = "Family Name: " + App.user.FamilyName;
             emailLabel.Text = "Email: " + App.user.Email;
