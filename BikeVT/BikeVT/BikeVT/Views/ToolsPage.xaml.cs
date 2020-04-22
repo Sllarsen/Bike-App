@@ -32,7 +32,7 @@ namespace BikeVT.Views
             // Register for reading changes.
             Gyroscope.ReadingChanged += Gyroscope_ReadingChanged;
             // Register for reading changes, be sure to unsubscribe when finished
-            Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
+            //Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
 
             Task.Run(() => updateGPS());
         }
@@ -76,13 +76,13 @@ namespace BikeVT.Views
         }
 
 
-        void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        /*void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
         {
             var data = e.Reading;
             viewModel.AccelerometerData = $"Reading: X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}";
             Console.WriteLine($"Reading: X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}");
             // Process Acceleration X, Y, and Z
-        }
+        }*/
 
         public void ToggleAccelerometer(object sender, EventArgs args)
         {

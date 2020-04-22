@@ -11,7 +11,7 @@ namespace BikeVT.Models
     public class FirebaseHelper
     {
 
-        FirebaseClient firebase = new FirebaseClient("https://bikemobilea.firebaseio.com/");
+        public FirebaseClient firebase = new FirebaseClient("https://bikemobilea.firebaseio.com/");
 
         public async Task<List<User>> GetAllUsers()
         {
@@ -111,7 +111,7 @@ namespace BikeVT.Models
                 .PostAsync(new GPS { Time = "6", Value = "7" });
         }
 
-        public async Task AddAcelData(User user, Trip t)
+        public async Task AddAcelData(User user, Trip t, string data)
         {
             var curUser = (await firebase
                .Child("Users")
@@ -122,6 +122,8 @@ namespace BikeVT.Models
                 .Child("_Trips")
                 .OnceAsync<Trip>()).Where(a => a.Object.StartTime == t.StartTime).FirstOrDefault();
 
+            Console.WriteLine("ADDING ACEL DATA ===========================================================");
+
             await firebase
                 .Child("Users")
                 .Child(curUser.Key)
@@ -129,7 +131,7 @@ namespace BikeVT.Models
                 .Child(curTrip.Key)
                 .Child("Data")
                 .Child("Acel")
-                .PostAsync(new Acel { Time = "6", Value = "7" });
+                .PostAsync(new Acel { Time = DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff"), Value = data });
         }
 
         public async Task AddGyrolData(User user, Trip t)

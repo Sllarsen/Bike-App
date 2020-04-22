@@ -31,9 +31,14 @@ namespace BikeVT.Views
         private FirebaseHelper fbh = new FirebaseHelper();
         public Trip t = new Trip();
 
+        SensorSpeed speed = SensorSpeed.UI;
+
         public MapPage()
         {
             InitializeComponent();
+
+            Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
+
             GetPositionCommand = new Command(async () => await OnGetPosition());
             BindingContext = this;  // Allows you to use "{Binding VAR}" in .xaml
             EndTrip.IsVisible = false;
@@ -155,6 +160,8 @@ namespace BikeVT.Views
         private async void EndTrip_Clicked (object sender, EventArgs e)
         {
             App.startedTrip = false;
+            ToggleAccelerometer();
+
             ButtonOpenCoords.IsVisible = true;
             EndTrip.IsVisible = false;
             var c_locator = CrossGeolocator.Current;
@@ -172,8 +179,6 @@ namespace BikeVT.Views
             if (SearchDest == null)
                 return;
 
-            App.startedTrip = true;
-
             // https://docs.microsoft.com/en-us/dotnet/api/system.globalization.textinfo.totitlecase?view=netframework-4.8
             // Creates a TextInfo based on the "en-US" culture.
             TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
@@ -189,6 +194,10 @@ namespace BikeVT.Views
             EndTrip.IsVisible = true;
 
             await fbh.AddTripToUser(App.user, t);
+
+            App.startedTrip = true;
+            ToggleAccelerometer();
+
             //await fbh.AddDataToTrip(App.user, t);
 
 
@@ -216,5 +225,38 @@ namespace BikeVT.Views
             OnPropertyChanged(propertyName);
             return true;
         }
+
+        async void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        {
+            var data = e.Reading;
+            //viewModel.AccelerometerData = $"Reading: X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}";
+            //Console.WriteLine($"Reading: X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}");
+            await fbh.AddAcelData(App.user, t, $"X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}");
+            // Process Acceleration X, Y, and Z
+        }
+
+        public void ToggleAccelerometer()
+        {
+            try
+            {
+                if (Accelerometer.IsMonitoring)
+                {
+                    //viewModel.AccelerometerData = "Accelerometer Stopped";
+                    Accelerometer.Stop();
+                }
+
+                else
+                    Accelerometer.Start(speed);
+            }
+            catch (FeatureNotSupportedException)
+            {
+                // Feature not supported on device
+            }
+            catch (Exception)
+            {
+                // Other error has occurred.
+            }
+        }
+
     }
 }
