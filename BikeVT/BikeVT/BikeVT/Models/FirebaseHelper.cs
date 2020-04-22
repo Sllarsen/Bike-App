@@ -56,7 +56,7 @@ namespace BikeVT.Models
             await firebase
                 .Child("Users")
                 .Child(curUser.Key)
-                .PutAsync(new User()
+                .PatchAsync(new User()
                 {
                     Id = user.Id,
                     Email = user.Email,
@@ -69,7 +69,7 @@ namespace BikeVT.Models
                 });
         }
 
-        public async Task AddTripToUser(User user, string tripName) 
+        public async Task AddTripToUser(User user, Trip t) 
         {
             var curUser = (await firebase
                 .Child("Users")
@@ -81,8 +81,83 @@ namespace BikeVT.Models
                 .Child("_Trips")
                 .PostAsync(new Trip()
                 { 
-                    TripName = tripName
+                    StartTime = t.StartTime,
+                    StartLocation = t.StartLocation,
+                    WeatherData = t.WeatherData,
+                    EndTime = "",
+                    EndLocation = "",
+                    acel = t.acel
                 });
+        }
+
+        public async Task AddDataToTrip(User user, Trip t)
+        {
+            var curUser = (await firebase
+               .Child("Users")
+               .OnceAsync<User>()).Where(a => a.Object.Id == user.Id).FirstOrDefault();
+            var curTrip = (await firebase
+                .Child("Users")
+                .Child(curUser.Key)
+                .Child("_Trips")
+                .OnceAsync<Trip>()).Where(a => a.Object.StartTime == t.StartTime).FirstOrDefault();
+            //create dummy values so the Data child populates
+            List<Acel> aa = new List<Acel>();
+            Acel temp = new Acel();
+            temp.Time = "0";
+            temp.Value = "0";
+            aa.Add(temp);
+
+            List<Gyro> gg = new List<Gyro>();
+            Gyro tg = new Gyro();
+            tg.Time = "0";
+            tg.Value = "0";
+            gg.Add(tg);
+
+            List<GPS> g = new List<GPS>();
+            GPS tempg = new GPS();
+            tempg.Time = "0";
+            tempg.Value = "0";
+            g.Add(tempg);
+
+            await firebase
+                .Child("Users")
+                .Child(curUser.Key)
+                .Child("_Trips")
+                .Child(curTrip.Key)
+                .Child("Data")
+                .PostAsync(new Data()
+                {
+                    acel = aa,
+                    gyro = gg,
+                    gps = g
+                });
+        }
+
+        public async Task UpdateTripToUser(User user, Trip t)
+        {
+            var curUser = (await firebase
+               .Child("Users")
+               .OnceAsync<User>()).Where(a => a.Object.Id == user.Id).FirstOrDefault();
+            var curTrip = (await firebase
+                .Child("Users")
+                .Child(curUser.Key)
+                .Child("_Trips")
+                .OnceAsync<Trip>()).Where(a => a.Object.StartTime == t.StartTime).FirstOrDefault();
+
+            await firebase
+                .Child("Users")
+                .Child(curUser.Key)
+                .Child("_Trips")
+                .Child(curTrip.Key)
+                .PatchAsync(new Trip()
+                {
+                    StartTime = t.StartTime,
+                    WeatherData = t.WeatherData,
+                    StartLocation = t.StartLocation,
+                    EndTime = t.EndTime,
+                    EndLocation = t.EndLocation
+                });
+
         }
 
         public async Task<User> GetUser(string id)

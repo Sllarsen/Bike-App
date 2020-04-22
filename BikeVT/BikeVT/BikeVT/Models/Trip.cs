@@ -7,7 +7,17 @@ namespace BikeVT.Models
     public class Trip
     {
 
-        public string TripName { get; set; }
+        public string WeatherData { get; set; }
+
+        public string StartTime { get; set; }
+
+        public string EndTime { get; set; }
+
+        public string StartLocation { get; set; }
+
+        public string EndLocation { get; set; }
+
+        public Acel [] acel { get; set; }
 
     }
 }

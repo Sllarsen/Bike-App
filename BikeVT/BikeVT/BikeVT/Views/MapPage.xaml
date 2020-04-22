@@ -28,6 +28,10 @@
                 IsEnabled="{Binding MapButtonIsEnabled}"
             />
 
+            <Button Text="End Trip" x:Name="EndTrip"
+                Clicked="EndTrip_Clicked"
+            />
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

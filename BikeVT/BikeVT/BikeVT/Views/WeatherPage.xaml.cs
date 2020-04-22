@@ -32,10 +32,10 @@ namespace BikeVT.Views
 
         async void OnGetWeatherButtonClicked(object sender, EventArgs e)
         {
-            //TODO: probably want to check for location here if we aren't making sure it isn't enabled elsewhere
             string req_uri = await GenerateRequestUri(Constants.OpenWeatherMapEndpoint);
                 WeatherData weatherData = await _restService.GetWeatherData(req_uri);
                 BindingContext = weatherData;
+       
         }
 
         async Task<string> GenerateRequestUri(string endpoint)
@@ -49,14 +49,6 @@ namespace BikeVT.Views
                 if (device_status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
                 {
                     await DisplayAlert("Location required", "Location permissions are required to to look up local weather.", "OK");
-
-
-                    // if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
-                    // {
-                    //     //Haven't looked into what makes this if-statement true. 
-                    //     // We shouldn't need this since we've already displayed an alert explaining why we need permissions
-                    //     await DisplayAlert("Need location", "Gunna need that location", "OK");
-                    // }
 
                     //Open prompt to settings:
                     await Utils.CheckPermissions(new LocationPermission());
@@ -80,10 +72,8 @@ namespace BikeVT.Views
                     requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
                     return requestUri;
                 }
-                else // if (device_status != Plugin.Permissions.Abstractions.PermissionStatus.Unknown)
-                {
-                    //location denied.
-                    // or permission is unknown. 
+                else
+                { 
 
                     await DisplayAlert("Permission denied", "Location permissions have been denied. " +
                         "Using Blacksburg as the default location.\n" +

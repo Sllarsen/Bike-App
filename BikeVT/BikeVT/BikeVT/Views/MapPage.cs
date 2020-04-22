@@ -15,6 +15,8 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 using Xamarin.Essentials;
+using BikeVT.Models;
+using Plugin.Geolocator;
 
 /**
  * some code from 
@@ -25,11 +27,15 @@ namespace BikeVT.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapPage : ContentPage
     {
+
+        private FirebaseHelper fbh = new FirebaseHelper();
+        public Trip t = new Trip();
         public MapPage()
         {
             InitializeComponent();
             GetPositionCommand = new Command(async () => await OnGetPosition());
             BindingContext = this;  // Allows you to use "{Binding VAR}" in .xaml
+            EndTrip.IsVisible = false;
         }
 
         string searchDest;
@@ -145,6 +151,17 @@ namespace BikeVT.Views
             }
         }
 
+        private async void EndTrip_Clicked (object sender, EventArgs e)
+        {
+            ButtonOpenCoords.IsVisible = true;
+            EndTrip.IsVisible = false;
+            var c_locator = CrossGeolocator.Current;
+            var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
+            t.EndLocation = "lat: " + test_loc.Latitude + ", long: " + test_loc.Longitude;
+            t.EndTime = DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff");
+            await fbh.UpdateTripToUser(App.user, t);
+        }
+
         //https://docs.microsoft.com/en-us/xamarin/essentials/maps?context=xamarin%2Fxamarin-forms&tabs=android
         private async void ButtonOpenCoords_Clicked(object sender, EventArgs e)
         {
@@ -157,6 +174,19 @@ namespace BikeVT.Views
             // Creates a TextInfo based on the "en-US" culture.
             TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
             string formattedTitle = myTI.ToTitleCase(SearchDest);
+
+            t.StartTime = DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff");
+            t.WeatherData = "not clicked"; //FIXME
+            var c_locator = CrossGeolocator.Current;
+            var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
+            t.StartLocation = "lat: " + test_loc.Latitude + ", long: " + test_loc.Longitude;
+
+            ButtonOpenCoords.IsVisible = false;
+            EndTrip.IsVisible = true;
+
+            await fbh.AddTripToUser(App.user, t);
+            await fbh.AddDataToTrip(App.user, t);
+
 
             // Open default "Maps" application
             await Map.OpenAsync(latitude, longitude, new MapLaunchOptions
