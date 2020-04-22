@@ -70,17 +70,17 @@
 
                 <Label Text="Temperature" 
                        Style="{StaticResource labelStyle}" />
-                <Label Text="{Binding Main.Temperature}" 
+                <Label Text="{Binding Main.Temperature, StringFormat='{0}° F'}" 
                        Style="{StaticResource labelResultStyle}" />
 
                 <Label Text="Wind Speed" 
                        Style="{StaticResource labelStyle}" />
-                <Label Text="{Binding Wind.Speed}" 
+                <Label Text="{Binding Wind.Speed, StringFormat='{0} MPH'}" 
                        Style="{StaticResource labelResultStyle}" />
 
                 <Label Text="Humidity" 
                        Style="{StaticResource labelStyle}" />
-                <Label Text="{Binding Main.Humidity}" 
+                <Label Text="{Binding Main.Humidity, StringFormat='{0}%'}" 
                        Style="{StaticResource labelResultStyle}" />
 
                 <Label Text="Visibility" 
