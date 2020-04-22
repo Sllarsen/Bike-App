@@ -23,7 +23,7 @@ namespace BikeVT.Views
         {
             InitializeComponent();
 
-            loginLabel.Text = "You are not logged in!\nGo back and try again";
+            loginLabel.Text = "You are not logged in!\nGo back and try again.";
 
             idLabel.IsVisible = false;
             givenLabel.IsVisible = false;
@@ -76,20 +76,15 @@ namespace BikeVT.Views
 
         private void updatePageOnLogin()
         {
-            if (isNewUser || noPersonalInfo)
-            {
-                loginLabel.Text = "Welcome " + App.user.GivenName + "!\nPlease go to personal information";
-                tripButton.IsVisible = false;
-            }
-            else
-            {
-                loginLabel.Text = "Welcome " + App.user.GivenName + "!";
-                tripButton.IsVisible = true;
-            }
+            // Put an alert to tell them to add personal information
+            DisplayAlert("Welcome new user!", "Please update your personal info before continuing.", "OK");
 
+            tripButton.IsVisible = !(isNewUser || noPersonalInfo);
+
+            loginLabel.Text = "Welcome " + App.user.GivenName + "!";
             idLabel.Text = "ID: " + App.user.Id;
-            givenLabel.Text = "Given Name: " + App.user.GivenName;
-            familyLabel.Text = "Family Name: " + App.user.FamilyName;
+            givenLabel.Text = "First Name: " + App.user.GivenName;
+            familyLabel.Text = "Last Name: " + App.user.FamilyName;
             emailLabel.Text = "Email: " + App.user.Email;
 
             idLabel.IsVisible = true;

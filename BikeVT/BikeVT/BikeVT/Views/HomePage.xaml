@@ -23,13 +23,13 @@
                HorizontalOptions="Center" />
 
             <Label x:Name="givenLabel"
-               Text="Given Name: "
+               Text="First Name: "
                FontSize="Large"
                VerticalOptions="CenterAndExpand"
                HorizontalOptions="Center" />
 
             <Label x:Name="familyLabel"
-               Text="Family Name: "
+               Text="Last Name: "
                FontSize="Large"
                VerticalOptions="CenterAndExpand"
                HorizontalOptions="Center" />
