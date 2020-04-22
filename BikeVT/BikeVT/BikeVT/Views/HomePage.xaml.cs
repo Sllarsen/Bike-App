@@ -77,7 +77,10 @@ namespace BikeVT.Views
         private void updatePageOnLogin()
         {
             // Put an alert to tell them to add personal information
-            DisplayAlert("Welcome new user!", "Please update your personal info before continuing.", "OK");
+            if(isNewUser || noPersonalInfo){
+                DisplayAlert("Welcome new user!", "Please update your personal info before continuing.", "OK");
+            }
+
 
             tripButton.IsVisible = !(isNewUser || noPersonalInfo);
 
