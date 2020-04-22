@@ -33,8 +33,10 @@ namespace BikeVT.Views
         async void OnGetWeatherButtonClicked(object sender, EventArgs e)
         {
             string req_uri = await GenerateRequestUri(Constants.OpenWeatherMapEndpoint);
+            if(req_uri != null){
                 WeatherData weatherData = await _restService.GetWeatherData(req_uri);
                 BindingContext = weatherData;
+            }
        
         }
 
@@ -73,19 +75,21 @@ namespace BikeVT.Views
                     return requestUri;
                 }
                 else
-                { 
+                {
+                    return null;
+                    /*
+                        await DisplayAlert("Permission denied", "Location permissions have been denied. " +
+                            "Device is using Blacksburg as the default location.\n" +
+                            "If you just allowed location, press the 'Get Weather' button again.\n", "OK");
+                        Console.WriteLine("Get weather location Default action");
 
-                    await DisplayAlert("Permission denied", "Location permissions have been denied. " +
-                        "Using Blacksburg as the default location.\n" +
-                        "If you just allowed location, press the 'Get Weather' button again.\n", "OK");
-                    Console.WriteLine("Get weather location Default action");
-
-                    string uri = endpoint;
-                    uri += "?lat=" + "37.229342";
-                    uri += "&lon=" + "-80.413928";
-                    uri += "&units=imperial"; // or units=metric
-                    uri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
-                    return uri;
+                        string uri = endpoint;
+                        uri += "?lat=" + "37.229342";
+                        uri += "&lon=" + "-80.413928";
+                        uri += "&units=imperial"; // or units=metric
+                        uri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
+                        return uri;
+                    */
                 }
 
             }
@@ -93,15 +97,19 @@ namespace BikeVT.Views
             {
 
                 //Something went wrong
-                await DisplayAlert("Error getting location","Something went wrong. Defaulting location to Blacksburg.", "OK");
-                Console.WriteLine("Something went wrong when getting location for weather. Defaulting to Blacksburg.\n" + ex);
+                await DisplayAlert("Error getting location","Something went wrong.", "OK");
 
-                string uri = endpoint;
-                uri += "?lat=" + "37.229342";
-                uri += "&lon=" + "-80.413928";
-                uri += "&units=imperial"; // or units=metric
-                uri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
-                return uri;
+                return null;
+
+                /*
+                    Console.WriteLine("Something went wrong when getting location for weather. Defaulting to Blacksburg.\n" + ex);
+                    string uri = endpoint;
+                    uri += "?lat=" + "37.229342";
+                    uri += "&lon=" + "-80.413928";
+                    uri += "&units=imperial"; // or units=metric
+                    uri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
+                    return uri;
+                */
             }
         }
     }
