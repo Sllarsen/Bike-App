@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Plugin.GoogleClient;
+using Xamarin.Forms.Platform.Android;
 
 namespace BikeVT.Droid
 {
@@ -17,7 +18,18 @@ namespace BikeVT.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
+            //this will make it full screen and take off the blue bar
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.TurnScreenOn);
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+            {
+                var stBarHeight = typeof(FormsAppCompatActivity).GetField("statusBarHeight", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                if (stBarHeight == null)
+                {
+                    stBarHeight = typeof(FormsAppCompatActivity).GetField("_statusBarHeight", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                }
+                stBarHeight?.SetValue(this, 0);
+            }
+            //end
             base.OnCreate(savedInstanceState);
 
             GoogleClientManager.Initialize(this);
