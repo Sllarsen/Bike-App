@@ -12,7 +12,9 @@
                 Text="You have now been logged in!"
                 FontSize="Large"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" 
+                HorizontalTextAlignment="Center" >
+            </Label>
 
             <Label x:Name="idLabel"
                Text="ID: "

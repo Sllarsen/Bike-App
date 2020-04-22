@@ -7,10 +7,62 @@
              x:Class="BikeVT.Views.PersonalInfoPage"
              Title="VTTI Bike Mobile App">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Spacing="30">
+            <Label x:Name="ageLabel"
+                   Text="Enter your age:"
+                   FontSize="Medium"
+                   HorizontalOptions="Center"/>
+            <Entry x:Name="ageEntry"
+                   Keyboard="Numeric"
+                   Margin="100, 0, 100, 0"/>
+
+            <Label x:Name="bikerStatusLabel"
+                   Text="Choose your biker status:"
+                   FontSize="Medium"
+                   HorizontalOptions="Center"/>
+            <Picker x:Name="bikerStatusPicker"
+                    Title="Choose Biker Status"
+                    Margin="100, 0, 100, 0">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Climber</x:String>
+                        <x:String>Puncheur</x:String>
+                        <x:String>Time trialist</x:String>
+                        <x:String>Sprinter</x:String>
+                        <x:String>Domestique</x:String>
+                        <x:String>All-rounder</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Label x:Name="genderLabel"
+                   Text="Choose your gender:"
+                   FontSize="Medium"
+                   HorizontalOptions="Center"/>
+            <Picker x:Name="genderPicker"
+                    Title="Choose Gender"
+                    Margin="100, 0, 100, 0">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Male</x:String>
+                        <x:String>Female</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Label x:Name="weightLabel"
+                   Text="Enter your weight (lbs):"
+                   FontSize="Medium"
+                   HorizontalOptions="Center"/>
+            <Entry x:Name="weightEntry"
+                   Keyboard="Numeric"
+                   Margin="100, 0, 100, 0"/>
+
+            <Button x:Name="saveButton"
+                    Text="Save Changes"
+                    VerticalOptions="CenterAndExpand"
+                    Margin="100, 0, 100, 0"
+                    Clicked="OnSaveClicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

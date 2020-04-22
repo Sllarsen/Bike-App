@@ -47,6 +47,28 @@ namespace BikeVT.Models
                 });
         }
 
+        public async Task UpdateUserInfo(User user)
+        {
+            var curUser = (await firebase
+                .Child("Users")
+                .OnceAsync<User>()).Where(a => a.Object.Id == user.Id).FirstOrDefault();
+
+            await firebase
+                .Child("Users")
+                .Child(curUser.Key)
+                .PutAsync(new User()
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FamilyName = user.FamilyName,
+                    GivenName = user.GivenName,
+                    Age = user.Age,
+                    Gender = user.Gender,
+                    Weight = user.Weight,
+                    BikerStatus = user.BikerStatus
+                });
+        }
+
         public async Task AddTripToUser(User user, string tripName) 
         {
             var curUser = (await firebase
@@ -56,6 +78,7 @@ namespace BikeVT.Models
             await firebase
                 .Child("Users")
                 .Child(curUser.Key)
+                .Child("_Trips")
                 .PostAsync(new Trip()
                 { 
                     TripName = tripName
