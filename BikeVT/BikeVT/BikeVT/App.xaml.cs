@@ -13,6 +13,7 @@ namespace BikeVT
 
         public static User user;
         public static bool loggedIn;
+        public static bool startedTrip;
 
         public App()
         {
@@ -21,6 +22,7 @@ namespace BikeVT
             // MainPage = new MainPage();
 
             user = new User();
+            startedTrip = false;
 
             loggedIn = false;
 

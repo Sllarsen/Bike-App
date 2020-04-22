@@ -30,6 +30,7 @@ namespace BikeVT.Views
 
         private FirebaseHelper fbh = new FirebaseHelper();
         public Trip t = new Trip();
+
         public MapPage()
         {
             InitializeComponent();
@@ -153,6 +154,7 @@ namespace BikeVT.Views
 
         private async void EndTrip_Clicked (object sender, EventArgs e)
         {
+            App.startedTrip = false;
             ButtonOpenCoords.IsVisible = true;
             EndTrip.IsVisible = false;
             var c_locator = CrossGeolocator.Current;
@@ -170,6 +172,8 @@ namespace BikeVT.Views
             if (SearchDest == null)
                 return;
 
+            App.startedTrip = true;
+
             // https://docs.microsoft.com/en-us/dotnet/api/system.globalization.textinfo.totitlecase?view=netframework-4.8
             // Creates a TextInfo based on the "en-US" culture.
             TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
@@ -185,7 +189,7 @@ namespace BikeVT.Views
             EndTrip.IsVisible = true;
 
             await fbh.AddTripToUser(App.user, t);
-            await fbh.AddDataToTrip(App.user, t);
+            //await fbh.AddDataToTrip(App.user, t);
 
 
             // Open default "Maps" application
