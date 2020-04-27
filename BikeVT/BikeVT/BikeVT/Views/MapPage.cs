@@ -19,6 +19,11 @@ using BikeVT.Models;
 using Plugin.Geolocator;
 using System.Collections;
 
+/////
+///
+
+using Plugin.Permissions;
+
 /**
  * some code from 
  * https://github.com/jamesmontemagno/app-essentials/tree/master/AppEssentials.Shared/Pages
@@ -124,9 +129,35 @@ namespace BikeVT.Views
         /**
          * Code from https://github.com/jamesmontemagno/app-essentials/tree/master/AppEssentials.Shared/Pages
          * but modified
+         * 
+         *When clicking the  "Looking up Destination" Button
          */
         async Task OnGetPosition()
         {
+                    //Check that we have permission to use location (and/or ask). 
+                    // Skip to the non-super indented section for actual code content
+
+                                                    //https://github.com/jamesmontemagno/PermissionsPlugin
+                                                    try
+                                                    {
+                                                        Plugin.Permissions.Abstractions.PermissionStatus device_status = await CrossPermissions.Current.CheckPermissionStatusAsync<LocationPermission>();
+
+                                                        if (device_status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
+                                                        {
+                                                            await DisplayAlert("Location required", "Location permissions are required to look up destination.", "OK");
+
+                                                            //Open prompt to settings:
+                                                            await Utils.CheckPermissions(new LocationPermission());
+
+                                                            //The next lines dont wait for you to return from the Settings app. It'll think you denied permissions
+                                                            Console.WriteLine("refreshing");
+                                                            device_status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
+                                                        }
+
+                                                        if (device_status == Plugin.Permissions.Abstractions.PermissionStatus.Granted)
+                                                        {
+            //Do stuff using location
+
             if (IsBusy)
                 return;
 
@@ -137,7 +168,7 @@ namespace BikeVT.Views
                 // TODO: Supposedly `locations` contains multiple locations based on the search query.
                 //       Ideally we'd like to sort by places by closest to the user's current location,
                 //       but `locations` seems to only have one location.
-                
+
                 // Console.WriteLine("Number of items in `locations`:"+locations.Count());               
                 // foreach (var item in locations)
                 // {Console.WriteLine("locations:" + item.ToString());}
@@ -201,6 +232,33 @@ namespace BikeVT.Views
             {
                 IsBusy = false;
             }
+                                                        }
+                                                        //else
+                                                        //{
+
+
+                                                        //}
+
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+
+                                                        //Something went wrong
+                                                        await DisplayAlert("Error getting location", "Something went wrong.", "OK");
+                                                        Console.WriteLine("Something went wrong when trying to look up location on maps page \n" + ex);
+
+                                                        //return null;
+
+                                                        /*
+                                                            string uri = endpoint;
+                                                            uri += "?lat=" + "37.229342";
+                                                            uri += "&lon=" + "-80.413928";
+                                                            uri += "&units=imperial"; // or units=metric
+                                                            uri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
+                                                            return uri;
+                                                        */
+                                                    }
+     
         }
 
         private async void EndTrip_Clicked (object sender, EventArgs e)
@@ -224,6 +282,7 @@ namespace BikeVT.Views
             await fbh.UpdateTripToUser(App.user, t);
         }
 
+        //"Open directions in maps app" button
         //https://docs.microsoft.com/en-us/xamarin/essentials/maps?context=xamarin%2Fxamarin-forms&tabs=android
         private async void ButtonOpenCoords_Clicked(object sender, EventArgs e)
         {
