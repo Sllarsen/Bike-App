@@ -30,6 +30,7 @@
 
             <Button Text="End Trip" x:Name="EndTrip"
                 Clicked="EndTrip_Clicked"
+                BackgroundColor="Red"
             />
 
         </StackLayout>
