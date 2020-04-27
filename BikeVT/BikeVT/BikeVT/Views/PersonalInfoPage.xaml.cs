@@ -32,18 +32,24 @@ namespace BikeVT.Views
 
         async void OnSaveClicked(object sender, EventArgs args) 
         {
-            var age = ageEntry.Text;
+            var string_age = ageEntry.Text;
             var bstatus = (String)bikerStatusPicker.SelectedItem;
             var gender = (String)genderPicker.SelectedItem;
             var weight = weightEntry.Text;
 
-            if (String.IsNullOrWhiteSpace(age) || String.IsNullOrWhiteSpace(bstatus) || String.IsNullOrWhiteSpace(gender) || String.IsNullOrWhiteSpace(weight))
+            int int_age;
+            bool isNumeric = int.TryParse(string_age, out int_age);
+
+            if (String.IsNullOrWhiteSpace(string_age) || String.IsNullOrWhiteSpace(bstatus) || String.IsNullOrWhiteSpace(gender) || String.IsNullOrWhiteSpace(weight))
             {
                 await DisplayAlert("Couldn't Save!", "All entries must be filled in order to save changes", "OK");
+            }else if (!isNumeric)
+            {
+                await DisplayAlert("Invalid Age", "Age must be an integer.", "OK");
             }
             else
             {
-                App.user.Age = Int32.Parse(age);
+                App.user.Age = int_age;
                 App.user.BikerStatus = bstatus;
                 App.user.Gender = gender;
                 App.user.Weight = Int32.Parse(weight);
