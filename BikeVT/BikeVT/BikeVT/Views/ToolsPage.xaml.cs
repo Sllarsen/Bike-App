@@ -30,7 +30,7 @@ namespace BikeVT.Views
 
 
             // Register for reading changes.
-            Gyroscope.ReadingChanged += Gyroscope_ReadingChanged;
+            //Gyroscope.ReadingChanged += Gyroscope_ReadingChanged;
             // Register for reading changes, be sure to unsubscribe when finished
             //Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
 
@@ -44,13 +44,13 @@ namespace BikeVT.Views
                 viewModel.updateGPSData();
             }
         }
-        void Gyroscope_ReadingChanged(object sender, GyroscopeChangedEventArgs e)
+        /*void Gyroscope_ReadingChanged(object sender, GyroscopeChangedEventArgs e)
         {
             var data = e.Reading;
             // Process Angular Velocity X, Y, and Z reported in rad/s
             viewModel.Gyrodata = $"Reading: X: {data.AngularVelocity.X}, Y: {data.AngularVelocity.Y}, Z: {data.AngularVelocity.Z}";
             Console.WriteLine($"Reading: X: {data.AngularVelocity.X}, Y: {data.AngularVelocity.Y}, Z: {data.AngularVelocity.Z}");
-        }
+        }*/
 
         public void ToggleGyroscope(object sender, EventArgs args)
         {

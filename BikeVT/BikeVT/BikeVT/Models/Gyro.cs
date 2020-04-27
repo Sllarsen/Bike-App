@@ -6,9 +6,8 @@ namespace BikeVT.Models
 {
     public class Gyro
     {
-        public string Time { get; set; }
 
-        public string Value { get; set; }
+        public string Values { get; set; }
 
     }
 }

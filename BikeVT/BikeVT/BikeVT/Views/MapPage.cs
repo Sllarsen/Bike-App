@@ -17,6 +17,7 @@ using System.Windows.Input;
 using Xamarin.Essentials;
 using BikeVT.Models;
 using Plugin.Geolocator;
+using System.Collections;
 
 /**
  * some code from 
@@ -31,13 +32,38 @@ namespace BikeVT.Views
         private FirebaseHelper fbh = new FirebaseHelper();
         public Trip t = new Trip();
 
-        SensorSpeed speed = SensorSpeed.UI;
+        String acelPackage = "";
+        delegate void AcelPackageEventHandler();
+        event AcelPackageEventHandler SendAcelPackage;
+        async void HandleSendAcelPackage()
+        {
+            string temp = String.Copy(acelPackage);
+            acelPackage = "";
+
+            await fbh.AddAcelData(App.user, t, temp);
+        }
+
+        String gyroPackage = "";
+        delegate void GyroPackageEventHandler();
+        event GyroPackageEventHandler SendGryoPackage;
+        async void HandleSendGyroPackage()
+        {
+            string temp = String.Copy(gyroPackage);
+            gyroPackage = "";
+
+            await fbh.AddGyroData(App.user, t, temp);
+        }
+
+            SensorSpeed speed = SensorSpeed.UI;
 
         public MapPage()
         {
             InitializeComponent();
 
             Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
+            Gyroscope.ReadingChanged += Gyroscope_ReadingChanged;
+            this.SendAcelPackage += HandleSendAcelPackage;
+            this.SendGryoPackage += HandleSendGyroPackage;
 
             GetPositionCommand = new Command(async () => await OnGetPosition());
             BindingContext = this;  // Allows you to use "{Binding VAR}" in .xaml
@@ -159,8 +185,12 @@ namespace BikeVT.Views
 
         private async void EndTrip_Clicked (object sender, EventArgs e)
         {
-            App.startedTrip = false;
             ToggleAccelerometer();
+            ToggleGyroscope();
+            await fbh.AddAcelData(App.user, t, acelPackage);
+            await fbh.AddGyroData(App.user, t, gyroPackage);
+            acelPackage = "";
+            gyroPackage = "";
 
             ButtonOpenCoords.IsVisible = true;
             EndTrip.IsVisible = false;
@@ -194,12 +224,8 @@ namespace BikeVT.Views
             EndTrip.IsVisible = true;
 
             await fbh.AddTripToUser(App.user, t);
-
-            App.startedTrip = true;
             ToggleAccelerometer();
-
-            //await fbh.AddDataToTrip(App.user, t);
-
+            ToggleGyroscope();
 
             // Open default "Maps" application
             await Map.OpenAsync(latitude, longitude, new MapLaunchOptions
@@ -226,13 +252,16 @@ namespace BikeVT.Views
             return true;
         }
 
-        async void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
         {
             var data = e.Reading;
-            //viewModel.AccelerometerData = $"Reading: X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}";
-            //Console.WriteLine($"Reading: X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}");
-            await fbh.AddAcelData(App.user, t, $"X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}");
-            // Process Acceleration X, Y, and Z
+
+            acelPackage += $"{DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff")},{data.Acceleration.X},{data.Acceleration.Y},{data.Acceleration.Z}/";
+
+
+            if (acelPackage.Length >= 100000) {
+                SendAcelPackage();
+            }
         }
 
         public void ToggleAccelerometer()
@@ -247,6 +276,39 @@ namespace BikeVT.Views
 
                 else
                     Accelerometer.Start(speed);
+            }
+            catch (FeatureNotSupportedException)
+            {
+                // Feature not supported on device
+            }
+            catch (Exception)
+            {
+                // Other error has occurred.
+            }
+        }
+
+        void Gyroscope_ReadingChanged(object sender, GyroscopeChangedEventArgs e)
+        {
+            var data = e.Reading;
+
+            gyroPackage += $"{DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff")},{data.AngularVelocity.X},{data.AngularVelocity.Y},{data.AngularVelocity.Z}/";
+
+            if (gyroPackage.Length >= 100000) {
+                SendGryoPackage();
+            }
+        }
+
+        public void ToggleGyroscope()
+        {
+            try
+            {
+                if (Gyroscope.IsMonitoring)
+                {
+                    Gyroscope.Stop();
+                }
+
+                else
+                    Gyroscope.Start(speed);
             }
             catch (FeatureNotSupportedException)
             {
