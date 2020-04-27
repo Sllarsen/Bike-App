@@ -56,14 +56,34 @@ namespace BikeVT.Views
 
             SensorSpeed speed = SensorSpeed.UI;
 
-        public MapPage()
+
+
+        //Events for uplaoding GPS Data
+        String GPSPackage = "";
+        delegate void GPSPackageEventHandler();
+        event GPSPackageEventHandler SendGPSPackage;
+        async void HandleSendGPSPackage()
         {
+            string temp = String.Copy(GPSPackage);
+            GPSPackage = "";
+
+            await fbh.AddGPSData(App.user, t, temp);
+        }
+
+
+
+
+
+        //constructor
+        public MapPage()
+        { 
             InitializeComponent();
 
             Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
             Gyroscope.ReadingChanged += Gyroscope_ReadingChanged;
             this.SendAcelPackage += HandleSendAcelPackage;
             this.SendGryoPackage += HandleSendGyroPackage;
+            this.SendGPSPackage += HandleSendGPSPackage;
 
             GetPositionCommand = new Command(async () => await OnGetPosition());
             BindingContext = this;  // Allows you to use "{Binding VAR}" in .xaml
@@ -187,10 +207,13 @@ namespace BikeVT.Views
         {
             ToggleAccelerometer();
             ToggleGyroscope();
+            breakGPS = true;
             await fbh.AddAcelData(App.user, t, acelPackage);
             await fbh.AddGyroData(App.user, t, gyroPackage);
+            await fbh.AddGPSData(App.user, t, GPSPackage);
             acelPackage = "";
             gyroPackage = "";
+            GPSPackage = "";
 
             ButtonOpenCoords.IsVisible = true;
             EndTrip.IsVisible = false;
@@ -226,6 +249,10 @@ namespace BikeVT.Views
             await fbh.AddTripToUser(App.user, t);
             ToggleAccelerometer();
             ToggleGyroscope();
+            breakGPS = false;
+            _ = Task.Run(() => updateGPS()); 
+
+
 
             // Open default "Maps" application
             await Map.OpenAsync(latitude, longitude, new MapLaunchOptions
@@ -252,7 +279,7 @@ namespace BikeVT.Views
             return true;
         }
 
-        void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        public void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
         {
             var data = e.Reading;
 
@@ -287,7 +314,7 @@ namespace BikeVT.Views
             }
         }
 
-        void Gyroscope_ReadingChanged(object sender, GyroscopeChangedEventArgs e)
+        public void Gyroscope_ReadingChanged(object sender, GyroscopeChangedEventArgs e)
         {
             var data = e.Reading;
 
@@ -320,5 +347,86 @@ namespace BikeVT.Views
             }
         }
 
+        //Bool to brak out of GPS loops
+        bool breakGPS = false;
+        public void updateGPS()
+        {
+
+            for (; !breakGPS ;)
+            {
+                var c_locator = CrossGeolocator.Current;
+                if (c_locator.IsGeolocationAvailable && c_locator.IsGeolocationEnabled)
+                {
+                    var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
+                    if(gpsData != test_loc.Latitude + "," + test_loc.Longitude)
+                    {
+                        gpsData =  test_loc.Latitude + "," + test_loc.Longitude;
+
+                        long curr = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                        GPSPackage += DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff") + "," + gpsData + "/";
+                        if(GPSPackage.Length >= 100000)
+                        {
+                            SendGPSPackage();
+
+                        }
+
+                    }
+ 
+                }
+                else
+                {
+                    gpsData = "gps services not enabled";
+                }
+
+                
+                //Console.WriteLine(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff") + " gps updated: " + gpsData );
+            }
+        }
+
+
+        private String gpsData = "GPS Stopped";
+        public string GPSData
+        {
+            get
+            {
+                var c_locator = CrossGeolocator.Current;
+                if (c_locator.IsGeolocationAvailable && c_locator.IsGeolocationEnabled)
+                {
+                    var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
+                    gpsData = "lat = " + test_loc.Latitude + " long: " + test_loc.Longitude;
+                }
+                else
+                {
+                    gpsData = "gps services not enabled";
+                }
+                return gpsData;
+            }
+            set
+            {
+                var c_locator = CrossGeolocator.Current;
+                if (c_locator.IsGeolocationAvailable && c_locator.IsGeolocationEnabled)
+                {
+                    var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
+                    gpsData = "lat = " + test_loc.Latitude + " long: " + test_loc.Longitude;
+                }
+                else
+                {
+                    gpsData = "gps services not enabled";
+                }
+            }
+        }
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
 }

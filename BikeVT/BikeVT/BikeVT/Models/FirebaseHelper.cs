@@ -91,26 +91,7 @@ namespace BikeVT.Models
                 });
         }
 
-        public async Task AddGPSData(User user, Trip t) 
-        {
-            var curUser = (await firebase
-               .Child("Users")
-               .OnceAsync<User>()).Where(a => a.Object.Id == user.Id).FirstOrDefault();
-            var curTrip = (await firebase
-                .Child("Users")
-                .Child(curUser.Key)
-                .Child("_Trips")
-                .OnceAsync<Trip>()).Where(a => a.Object.StartTime == t.StartTime).FirstOrDefault();
-
-            await firebase
-                .Child("Users")
-                .Child(curUser.Key)
-                .Child("_Trips")
-                .Child(curTrip.Key)
-                .Child("Data")
-                .Child("GPS")
-                .PostAsync(new GPS { Time = "6", Value = "7" });
-        }
+     
 
         public async Task AddAcelData(User user, Trip t, string data)
         {
@@ -132,6 +113,30 @@ namespace BikeVT.Models
                 .Child("Acel")
                 .PostAsync(new Acel { Values = data });
         }
+
+        //GPS DATA UPLOAD
+        public async Task AddGPSData(User user, Trip t, string data)
+        {
+            var curUser = (await firebase
+               .Child("Users")
+               .OnceAsync<User>()).Where(a => a.Object.Id == user.Id).FirstOrDefault();
+            var curTrip = (await firebase
+                .Child("Users")
+                .Child(curUser.Key)
+                .Child("_Trips")
+                .OnceAsync<Trip>()).Where(a => a.Object.StartTime == t.StartTime).FirstOrDefault();
+
+            await firebase
+                .Child("Users")
+                .Child(curUser.Key)
+                .Child("_Trips")
+                .Child(curTrip.Key)
+                .Child("Data")
+                .Child("GPS")
+                .PostAsync(new GPS { Values = data });
+        }
+
+
 
         public async Task AddGyroData(User user, Trip t, string data)
         {
