@@ -13,13 +13,13 @@ using Xamarin.Forms.Xaml;
 namespace BikeVT.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class HomePage : ContentPage
+    public partial class WelcomePage : ContentPage
     {
         FirebaseHelper firebaseHelper = new FirebaseHelper();
         bool isNewUser = false;
         bool noPersonalInfo = false;
 
-        public HomePage()
+        public WelcomePage()
         {
             InitializeComponent();
 

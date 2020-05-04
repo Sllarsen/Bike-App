@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+   <!-- Main screen showing Weather, Maps, Statistics page -->
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:views="clr-namespace:BikeVT.Views"
@@ -28,32 +29,29 @@
             </NavigationPage.Icon>
         </NavigationPage>
 
-        <NavigationPage Title="Tools">
-            <x:Arguments>
-                <views:ToolsPage />
-            </x:Arguments>
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_about.png"/>
-                </OnPlatform>
-            </NavigationPage.Icon>
+        <!--
+            <NavigationPage Title="Tools">
+                <x:Arguments>
+                    <views:ToolsPage />
+                </x:Arguments>
+                <NavigationPage.Icon>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <On Platform="iOS" Value="tab_about.png"/>
+                    </OnPlatform>
+                </NavigationPage.Icon>
+            </NavigationPage>
 
-        </NavigationPage>
-
-        <NavigationPage Title="Statistics">
-            <x:Arguments>
-                <views:StatisticPage/>
-            </x:Arguments>
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_about.png"/>
-                </OnPlatform>
-            </NavigationPage.Icon>
-        </NavigationPage>
-
-
-        
-       
+            <NavigationPage Title="Statistics">
+                <x:Arguments>
+                    <views:StatisticPage/>
+                </x:Arguments>
+                <NavigationPage.Icon>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <On Platform="iOS" Value="tab_about.png"/>
+                    </OnPlatform>
+                </NavigationPage.Icon>
+            </NavigationPage>
+        -->
         
     </TabbedPage.Children>
 </TabbedPage>

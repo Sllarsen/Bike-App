@@ -19,15 +19,11 @@ namespace BikeVT.Views
         // Set speed delay for monitoring changes.
         SensorSpeed speed = SensorSpeed.UI;
 
-
-
-        
         public ToolsPage ()
 		{
 			InitializeComponent ();
             viewModel = new ToolsViewModel();
             BindingContext = viewModel;
-
 
             // Register for reading changes.
             //Gyroscope.ReadingChanged += Gyroscope_ReadingChanged;
@@ -106,7 +102,6 @@ namespace BikeVT.Views
                 // Other error has occurred.
             }
         }
-
 
     }
 }

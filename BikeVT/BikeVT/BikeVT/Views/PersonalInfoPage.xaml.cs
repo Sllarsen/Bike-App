@@ -1,10 +1,5 @@
 ﻿using BikeVT.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,19 +10,18 @@ namespace BikeVT.Views
     public partial class PersonalInfoPage : ContentPage
     {
         FirebaseHelper firebaseHelper = new FirebaseHelper();
-        HomePage homePage;
+        WelcomePage welcomePage;
 
-        public PersonalInfoPage(HomePage homePage)
+        public PersonalInfoPage(WelcomePage welcomePage)
         {
             InitializeComponent();
 
-            this.homePage = homePage;
+            this.welcomePage = welcomePage;
 
             ageEntry.Text = App.user.Age.ToString();
             bikerStatusPicker.SelectedItem = App.user.BikerStatus;
             genderPicker.SelectedItem = App.user.Gender;
             weightEntry.Text = App.user.Weight.ToString();
-
         }
 
         async void OnSaveClicked(object sender, EventArgs args) 
@@ -58,9 +52,8 @@ namespace BikeVT.Views
 
                 await DisplayAlert("Successfully Saved!", "Your personal information has been updated", "OK");
 
-                homePage.ShowTripsButton();
+                welcomePage.ShowTripsButton();
             }
         }
-
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using BikeVT.Views;
-using Plugin.GoogleClient.Shared;
 using BikeVT.Models;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -10,7 +8,6 @@ namespace BikeVT
 {
     public partial class App : Application
     {
-
         public static User user;
         public static bool loggedIn;
 
@@ -26,7 +23,7 @@ namespace BikeVT
 
             if (loggedIn)
             {
-                MainPage = new NavigationPage(new HomePage());
+                MainPage = new NavigationPage(new WelcomePage());
             }
             else
             {

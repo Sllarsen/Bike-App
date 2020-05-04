@@ -1,9 +1,5 @@
 ﻿using Plugin.GoogleClient;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -22,7 +18,7 @@ namespace BikeVT.Views
         {
 
             CrossGoogleClient.Current.LoginAsync();
-            Navigation.InsertPageBefore(new HomePage(), this);
+            Navigation.InsertPageBefore(new WelcomePage(), this);
             Navigation.PopAsync();
 
         }

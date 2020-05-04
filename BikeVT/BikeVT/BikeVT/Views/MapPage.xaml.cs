@@ -1,28 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
-//For Capitalizing strings
-using System.Globalization;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
+using Xamarin.Essentials;
+using BikeVT.Models;
+using Plugin.Geolocator;
+
+using Plugin.Permissions;
 
 //For Binding:
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-using Xamarin.Essentials;
-using BikeVT.Models;
-using Plugin.Geolocator;
-using System.Collections;
-
-/////
-///
-
-using Plugin.Permissions;
+//For Capitalizing strings
+using System.Globalization;
 
 /**
  * some code from 
@@ -33,9 +28,11 @@ namespace BikeVT.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapPage : ContentPage
     {
-
+        // Collecting data:
         private FirebaseHelper fbh = new FirebaseHelper();
         public Trip t = new Trip();
+
+        SensorSpeed speed = SensorSpeed.UI;
 
         String acelPackage = "";
         delegate void AcelPackageEventHandler();
@@ -59,11 +56,7 @@ namespace BikeVT.Views
             await fbh.AddGyroData(App.user, t, temp);
         }
 
-            SensorSpeed speed = SensorSpeed.UI;
-
-
-
-        //Events for uplaoding GPS Data
+        //Events for uploading GPS Data
         String GPSPackage = "";
         delegate void GPSPackageEventHandler();
         event GPSPackageEventHandler SendGPSPackage;
@@ -77,9 +70,7 @@ namespace BikeVT.Views
 
 
 
-
-
-        //constructor
+        //Constructor
         public MapPage()
         { 
             InitializeComponent();
@@ -95,6 +86,7 @@ namespace BikeVT.Views
             EndTrip.IsVisible = false;
         }
 
+        //Variables to connect textbox fields (in front end) with back end functions
         string searchDest;
         string identifiedDest;
         string coordMsg;
@@ -130,135 +122,129 @@ namespace BikeVT.Views
          * Code from https://github.com/jamesmontemagno/app-essentials/tree/master/AppEssentials.Shared/Pages
          * but modified
          * 
-         *When clicking the  "Looking up Destination" Button
+         * When clicking the  "Looking up Destination" Button
+         * 
+         * Tries to identify coordinates based on the string address/name they typed
+         * Stores this in the variables latitude, latitude
+         * Shows users their destination's address on screen
+         * 
+         * How it works: Use their string and find coordinates, use the coordinates to find a street address.
          */
         async Task OnGetPosition()
         {
-                    //Check that we have permission to use location (and/or ask). 
-                    // Skip to the non-super indented section for actual code content
-
-                                                    //https://github.com/jamesmontemagno/PermissionsPlugin
-                                                    try
-                                                    {
-                                                        Plugin.Permissions.Abstractions.PermissionStatus device_status = await CrossPermissions.Current.CheckPermissionStatusAsync<LocationPermission>();
-
-                                                        if (device_status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
-                                                        {
-                                                            await DisplayAlert("Location required", "Location permissions are required to look up destination.", "OK");
-
-                                                            //Open prompt to settings:
-                                                            await Utils.CheckPermissions(new LocationPermission());
-
-                                                            //The next lines dont wait for you to return from the Settings app. It'll think you denied permissions
-                                                            Console.WriteLine("refreshing");
-                                                            device_status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
-                                                        }
-
-                                                        if (device_status == Plugin.Permissions.Abstractions.PermissionStatus.Granted)
-                                                        {
-            //Do stuff using location
-
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
+            //https://github.com/jamesmontemagno/PermissionsPlugin
             try
             {
-                var locations = await Geocoding.GetLocationsAsync(SearchDest);
-                // TODO: Supposedly `locations` contains multiple locations based on the search query.
-                //       Ideally we'd like to sort by places by closest to the user's current location,
-                //       but `locations` seems to only have one location.
-
-                // Console.WriteLine("Number of items in `locations`:"+locations.Count());               
-                // foreach (var item in locations)
-                // {Console.WriteLine("locations:" + item.ToString());}
-
-                Location location = locations.FirstOrDefault();
-
-                if (location == null)
+                if (await hasLocationPermissions())
                 {
-                    CoordMsg = "";
-                    IdentifiedDest = "Unable to locate destination";
-                    MapButtonIsEnabled = false;
-                    //TODO: Check if they just typed in coordinates and use that
-                }
-                else
-                {
-                    latitude = location.Latitude;
-                    longitude = location.Longitude;
-                    CoordMsg = "[" + latitude + ", " + longitude + "]";
+                    //Do stuff using location
 
-                    // Find Address info (text)
-                    var placemarks = await Geocoding.GetPlacemarksAsync(latitude, longitude);
-                    Placemark placemark = placemarks.FirstOrDefault();
-                    if (placemark == null)
+                    if (IsBusy)
+                        return;
+
+                    IsBusy = true;
+                    try
                     {
-                        IdentifiedDest = "";
-                    }
-                    else
-                    {
-                        // If .FeatureName is the name of the building, we want it on a new line
-                        // if it is just the street number, we want it on the same line
+                        var locations = await Geocoding.GetLocationsAsync(SearchDest);
+                        // TODO: Supposedly `locations` contains multiple locations based on the search query.
+                        //       Ideally we'd like to sort by places by closest to the user's current location,
+                        //       but `locations` seems to only have one location.
 
-                        IdentifiedDest =
-                                placemark.FeatureName +
-                                //placemark.SubThoroughfare seems to be the same as .FeatureName
+                        // Console.WriteLine("Number of items in `locations`:"+locations.Count());               
+                        // foreach (var item in locations)
+                        // {Console.WriteLine("locations:" + item.ToString());}
 
-                                (double.TryParse(placemark.FeatureName, out double unusedVar) ? " " : "\n") +
+                        Location location = locations.FirstOrDefault();
+
+                        if (location == null)
+                        {
+                            CoordMsg = "";
+                            IdentifiedDest = "Unable to locate destination";
+                            MapButtonIsEnabled = false;
+                            //TODO: Check if they just typed in coordinates and use that
+                        }
+                        else
+                        {
+                            latitude = location.Latitude;
+                            longitude = location.Longitude;
+                            CoordMsg = "[" + latitude + ", " + longitude + "]";
+
+                            // Use coordinates to find nearest street address:
+                            // Find Address info (text)
+                            var placemarks = await Geocoding.GetPlacemarksAsync(latitude, longitude);
+                            Placemark placemark = placemarks.FirstOrDefault();
+                            if (placemark == null)
+                            {
+                                IdentifiedDest = "";
+                            }
+                            else
+                            {
                                 // If .FeatureName is the name of the building, we want it on a new line
                                 // if it is just the street number, we want it on the same line
 
-                                placemark.Thoroughfare + "\n" +
-                                placemark.Locality + ", " +
-                                placemark.AdminArea + " " +
-                                placemark.PostalCode + "\n" +
-                                "(" +
-                                (string.IsNullOrEmpty(placemark.SubAdminArea) ? "" : (placemark.SubAdminArea + ", ")) +
-                                placemark.CountryCode +
-                                ")";
-                    }
+                                IdentifiedDest =
+                                        placemark.FeatureName +
+                                        //placemark.SubThoroughfare seems to be the same as .FeatureName
 
-                    // Allow users to open google maps
-                    MapButtonIsEnabled = true;
+                                        (double.TryParse(placemark.FeatureName, out double unusedVar) ? " " : "\n") +
+                                        // If .FeatureName is the name of the building, we want it on a new line
+                                        // if it is just the street number, we want it on the same line
+
+                                        placemark.Thoroughfare + "\n" +
+                                        placemark.Locality + ", " +
+                                        placemark.AdminArea + " " +
+                                        placemark.PostalCode + "\n" +
+                                        "(" +
+                                        (string.IsNullOrEmpty(placemark.SubAdminArea) ? "" : (placemark.SubAdminArea + ", ")) +
+                                        placemark.CountryCode +
+                                        ")";
+                            }
+
+                            // Allow users to open google maps
+                            MapButtonIsEnabled = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        CoordMsg = "";
+                        IdentifiedDest = $"Unable to identify destination: {ex.Message}";
+                        MapButtonIsEnabled = false;
+                    }
+                    finally
+                    {
+                        IsBusy = false;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                CoordMsg = "";
-                IdentifiedDest = $"Unable to identify destination: {ex.Message}";
-                MapButtonIsEnabled = false;
+                //Something went wrong
+                await DisplayAlert("Error getting location", "Something went wrong.", "OK");
+                Console.WriteLine("Something went wrong when trying to look up location on maps page \n" + ex);
             }
-            finally
+        }
+
+        /**
+		 * Includes code from https://github.com/jamesmontemagno/PermissionsPlugin
+		 * Returns if we have location permissions.
+		 * Will prompt users for permission if False (but will still return False regardless if they change settings)
+		 */
+        async Task<bool> hasLocationPermissions()
+        {
+            Plugin.Permissions.Abstractions.PermissionStatus device_status = await CrossPermissions.Current.CheckPermissionStatusAsync<LocationPermission>();
+
+            if (device_status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
             {
-                IsBusy = false;
+                await DisplayAlert("Location required", "Location permissions are required to look up destination.", "OK");
+
+                //Open prompt to settings:
+                await Utils.CheckPermissions(new LocationPermission());
+
+                //The next lines dont wait for you to return from the Settings app. It'll think you denied permissions
+                Console.WriteLine("refreshing");
+                device_status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
             }
-                                                        }
-                                                        //else
-                                                        //{
-
-
-                                                        //}
-
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-
-                                                        //Something went wrong
-                                                        await DisplayAlert("Error getting location", "Something went wrong.", "OK");
-                                                        Console.WriteLine("Something went wrong when trying to look up location on maps page \n" + ex);
-
-                                                        //return null;
-
-                                                        /*
-                                                            string uri = endpoint;
-                                                            uri += "?lat=" + "37.229342";
-                                                            uri += "&lon=" + "-80.413928";
-                                                            uri += "&units=imperial"; // or units=metric
-                                                            uri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
-                                                            return uri;
-                                                        */
-                                                    }
-     
+            return device_status == Plugin.Permissions.Abstractions.PermissionStatus.Granted;
         }
 
         private async void EndTrip_Clicked (object sender, EventArgs e)
@@ -273,7 +259,7 @@ namespace BikeVT.Views
             gyroPackage = "";
             GPSPackage = "";
 
-            ButtonOpenCoords.IsVisible = true;
+            ButtonOpenCoords.IsEnabled = true;
             EndTrip.IsVisible = false;
             var c_locator = CrossGeolocator.Current;
             var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
@@ -282,36 +268,43 @@ namespace BikeVT.Views
             await fbh.UpdateTripToUser(App.user, t);
         }
 
-        //"Open directions in maps app" button
-        //https://docs.microsoft.com/en-us/xamarin/essentials/maps?context=xamarin%2Fxamarin-forms&tabs=android
+        /**
+         * Users clicked "Open directions in maps app" button
+         * https://docs.microsoft.com/en-us/xamarin/essentials/maps?context=xamarin%2Fxamarin-forms&tabs=android
+         * 
+         * This should start data collection and open up Google Maps
+         */
         private async void ButtonOpenCoords_Clicked(object sender, EventArgs e)
         {
+            //Extra error checking that we actually have a destination
             if (!MapButtonIsEnabled)   //Coords have not been set
                 return;
             if (SearchDest == null)
                 return;
-
-            // https://docs.microsoft.com/en-us/dotnet/api/system.globalization.textinfo.totitlecase?view=netframework-4.8
-            // Creates a TextInfo based on the "en-US" culture.
-            TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
-            string formattedTitle = myTI.ToTitleCase(SearchDest);
-
+    
+            // Data Collection stuff
             t.StartTime = DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff");
-            t.WeatherData = "not clicked"; //FIXME
+            t.WeatherData = "Not clicked"; //FIXME
             var c_locator = CrossGeolocator.Current;
             var test_loc = Task.Run(() => c_locator.GetPositionAsync(TimeSpan.FromSeconds(.5))).Result;
             t.StartLocation = "lat: " + test_loc.Latitude + ", long: " + test_loc.Longitude;
-
-            ButtonOpenCoords.IsVisible = false;
-            EndTrip.IsVisible = true;
 
             await fbh.AddTripToUser(App.user, t);
             ToggleAccelerometer();
             ToggleGyroscope();
             breakGPS = false;
-            _ = Task.Run(() => updateGPS()); 
+            _ = Task.Run(() => updateGPS());
 
+            //Show/disable button
+            ButtonOpenCoords.IsEnabled = false;
+            EndTrip.IsVisible = true;
 
+            // The following is for sending info to Google Maps
+
+            // https://docs.microsoft.com/en-us/dotnet/api/system.globalization.textinfo.totitlecase?view=netframework-4.8
+            // Creates a TextInfo based on the "en-US" culture.
+            TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
+            string formattedTitle = myTI.ToTitleCase(SearchDest);
 
             // Open default "Maps" application
             await Map.OpenAsync(latitude, longitude, new MapLaunchOptions
@@ -344,7 +337,6 @@ namespace BikeVT.Views
 
             acelPackage += $"{DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff")},{data.Acceleration.X},{data.Acceleration.Y},{data.Acceleration.Z}/";
 
-
             if (acelPackage.Length >= 100000) {
                 SendAcelPackage();
             }
@@ -359,17 +351,16 @@ namespace BikeVT.Views
                     //viewModel.AccelerometerData = "Accelerometer Stopped";
                     Accelerometer.Stop();
                 }
-
                 else
                     Accelerometer.Start(speed);
             }
             catch (FeatureNotSupportedException)
             {
-                // Feature not supported on device
+                Console.WriteLine("ToggleAccelerometer(): Feature not supported on device.");
             }
             catch (Exception)
             {
-                // Other error has occurred.
+                Console.WriteLine("ToggleAccelerometer(): Other error has occurred.");
             }
         }
 
@@ -398,15 +389,15 @@ namespace BikeVT.Views
             }
             catch (FeatureNotSupportedException)
             {
-                // Feature not supported on device
+                Console.WriteLine("ToggleGyroscope(): Feature not supported on device");
             }
             catch (Exception)
             {
-                // Other error has occurred.
+                Console.WriteLine("ToggleGyroscope(): Other error has occurred.");
             }
         }
 
-        //Bool to brak out of GPS loops
+        //Bool to break out of GPS loops
         bool breakGPS = false;
         public void updateGPS()
         {
@@ -428,16 +419,13 @@ namespace BikeVT.Views
                             SendGPSPackage();
 
                         }
-
                     }
- 
                 }
                 else
                 {
                     gpsData = "gps services not enabled";
                 }
 
-                
                 //Console.WriteLine(DateTime.UtcNow.ToString("MM-dd-yyyy HH:mm:ss.fff") + " gps updated: " + gpsData );
             }
         }
@@ -474,18 +462,5 @@ namespace BikeVT.Views
                 }
             }
         }
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
 }

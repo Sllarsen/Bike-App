@@ -1,4 +1,6 @@
-﻿// From https://github.com/jamesmontemagno/PermissionsPlugin/blob/master/samples/PermissionsSample/PermissionsSample/Utils.cs
+﻿// Used for ensuring/requesting device (location) permissions 
+// File created by https://github.com/jamesmontemagno/PermissionsPlugin/blob/master/samples/PermissionsSample/PermissionsSample/Utils.cs
+// unless otherwise indicated.
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Threading.Tasks;
